@@ -24,7 +24,7 @@ export function Hero() {
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-[#2F0D5E]/80 mix-blend-multiply" />
             </div>
 
-            <div className="relative z-10 w-full max-w-4xl px-4 text-center">
+            <div className="relative z-10 w-full max-w-4xl px-4 text-center -mt-[10%] md:mt-0">
                 <h1 className="mb-2 text-3xl font-bold text-white md:text-5xl drop-shadow-lg">
                     Find Your <span className="text-secondary">Perfect Home</span>
                 </h1>
