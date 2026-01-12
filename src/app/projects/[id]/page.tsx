@@ -42,6 +42,12 @@ export async function generateMetadata({
     };
 }
 
+export async function generateStaticParams() {
+    return PROJECTS.map((project) => ({
+        id: project.id,
+    }));
+}
+
 export default async function ProjectDetails({
     params,
 }: {
