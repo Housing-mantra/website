@@ -7,7 +7,7 @@ import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen font-sans pt-16">
+    <main className="min-h-screen font-sans">
       <Navbar />
       <Hero />
       <FeaturedProjects />

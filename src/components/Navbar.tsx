@@ -5,6 +5,7 @@ import { Menu, User, X, MapPin, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 const LOCATIONS = ["Pune", "Mumbai", "Bangalore"];
 
@@ -13,6 +14,9 @@ export function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLocationOpen, setIsLocationOpen] = useState(false);
     const [selectedCity, setSelectedCity] = useState("Pune");
+    const pathname = usePathname();
+
+    const isTransparent = pathname === "/" && !isScrolled && !isMobileMenuOpen;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -35,13 +39,17 @@ export function Navbar() {
     return (
         <nav
             className={cn(
-                "fixed top-0 z-50 w-full transition-all duration-300 bg-white custom-shadow"
+                "fixed top-0 z-50 w-full transition-all duration-300",
+                isTransparent ? "bg-transparent" : "bg-white custom-shadow"
             )}
         >
             <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
                 <div className="flex items-center gap-6">
                     <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
-                        <span className="text-2xl font-bold transition-colors text-primary">
+                        <span className={cn(
+                            "text-2xl font-bold transition-colors",
+                            isTransparent ? "text-white" : "text-primary"
+                        )}>
                             Housing Mantra
                         </span>
                     </Link>
@@ -50,7 +58,12 @@ export function Navbar() {
                     <div className="hidden md:block relative">
                         <button
                             onClick={() => setIsLocationOpen(!isLocationOpen)}
-                            className="flex items-center gap-1 text-sm font-medium transition-colors outline-none text-gray-600 hover:text-primary"
+                            className={cn(
+                                "flex items-center gap-1 text-sm font-medium transition-colors outline-none",
+                                isTransparent
+                                    ? "text-white/90 hover:text-white"
+                                    : "text-gray-600 hover:text-primary"
+                            )}
                         >
                             <MapPin className="h-4 w-4" />
                             <span>{selectedCity}</span>
@@ -107,16 +120,29 @@ export function Navbar() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <Link href="/post-property" className="hidden md:flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors bg-secondary/10 text-secondary-foreground hover:bg-secondary/20">
+                    <Link href="/post-property" className={cn(
+                        "hidden md:flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors",
+                        isTransparent
+                            ? "bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm"
+                            : "bg-secondary/10 text-secondary-foreground hover:bg-secondary/20"
+                    )}>
                         <span className="bg-secondary text-white rounded-full p-0.5 text-xs">FREE</span>
                         Post Property
                     </Link>
-                    <button className="flex items-center gap-2 rounded-md border text-sm font-medium transition-colors p-2 md:px-4 md:py-2 border-gray-200 text-gray-900 hover:bg-gray-50">
+                    <button className={cn(
+                        "flex items-center gap-2 rounded-md border text-sm font-medium transition-colors p-2 md:px-4 md:py-2",
+                        isTransparent
+                            ? "border-white/30 text-white hover:bg-white/10"
+                            : "border-gray-200 text-gray-900 hover:bg-gray-50"
+                    )}>
                         <User className="h-4 w-4" />
                         <span className="hidden md:inline">Login</span>
                     </button>
                     <button
-                        className="md:hidden p-2 text-gray-900"
+                        className={cn(
+                            "md:hidden p-2",
+                            isTransparent ? "text-white" : "text-gray-900"
+                        )}
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     >
                         {isMobileMenuOpen ? (
