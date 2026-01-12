@@ -10,7 +10,7 @@ const rubik = Rubik({
 export const metadata: Metadata = {
   metadataBase: new URL('https://housingmantra.in'),
   title: {
-    default: "Housing Mantra - Premium Real Estate in Pune & PCMC",
+    default: "Find Your Perfect Home in Pune | Housing Mantra",
     template: "%s | Housing Mantra"
   },
   description: "Find your dream home with Housing Mantra. Explore verified resdential and commercial properties in Pune, PCMC, Moshi, Charholi, and more. Direct from owners, 100% transparent.",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: "https://housingmantra.in",
-    title: "Housing Mantra - Find Your Perfect Home",
+    title: "Find Your Perfect Home in Pune | Housing Mantra",
     description: "Discover verified properties in Pune and PCMC. Luxury apartments, affordable homes, and commercial spaces.",
     siteName: "Housing Mantra",
     images: [
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Housing Mantra - Premium Real Estate in Pune",
+    title: "Find Your Perfect Home in Pune | Housing Mantra",
     description: "Your trusted partner for buying and selling property in Pune and PCMC.",
     images: ["/og-image.jpg"],
   },
