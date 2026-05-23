@@ -70,16 +70,16 @@ export function CityExplorer() {
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
                     {CITIES.map((city) => (
                         <Link
-                            href={`/city/${city.name.toLowerCase()}`}
+                            href={`/projects-in-${city.name.toLowerCase().replace(/ /g, '-')}`}
                             key={city.name}
-                            className="group relative block h-80 w-full overflow-hidden rounded-md border border-gray-100 custom-shadow"
+                            className="group relative block h-80 w-full overflow-hidden rounded-[5px] border border-gray-100 shadow-sm"
                         >
                             <Image
                                 src={city.image}
                                 alt={city.name}
                                 fill
                                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
-                                className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                className="object-cover transition-transform duration-500"
                             />
                             {/* Gradient Overlay */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80" />

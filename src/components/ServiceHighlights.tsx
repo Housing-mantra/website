@@ -40,7 +40,7 @@ export function ServiceHighlights() {
                         return (
                             <div
                                 key={index}
-                                className="group flex flex-col items-center text-center p-6 bg-white rounded-md custom-shadow hover:-translate-y-1 transition-all duration-300 border border-gray-100"
+                                className="group flex flex-col items-center text-center p-6 bg-white rounded-[5px] shadow-sm transition-all duration-500 border border-gray-100"
                             >
                                 <div className="mb-6 p-4 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
                                     <Icon className="h-8 w-8" />

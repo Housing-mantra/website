@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, User, X, MapPin, ChevronDown } from "lucide-react";
+import { Menu, User, X, MapPin, ChevronDown, Building2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
@@ -40,7 +40,7 @@ export function Navbar() {
         <nav
             className={cn(
                 "fixed top-0 z-50 w-full transition-all duration-300",
-                isTransparent ? "bg-transparent" : "bg-white custom-shadow"
+                isTransparent ? "bg-transparent" : "bg-white shadow-sm"
             )}
         >
             <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
@@ -77,7 +77,7 @@ export function Navbar() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: 10 }}
                                     transition={{ duration: 0.2 }}
-                                    className="absolute top-full left-0 mt-4 w-48 rounded-md bg-white p-2 custom-shadow ring-1 ring-black/5 z-50"
+                                    className="absolute top-full left-0 mt-4 w-48 rounded-[5px] bg-white p-2 shadow-sm ring-1 ring-black/5 z-50"
                                 >
                                     <div className="flex flex-col gap-1">
                                         {LOCATIONS.map((city) => {
@@ -85,7 +85,7 @@ export function Navbar() {
                                             return (
                                                 <Link
                                                     key={city}
-                                                    href={isComingSoon ? "#" : `/city/${city.toLowerCase()}`}
+                                                    href={isComingSoon ? "#" : `/projects-in-${city.toLowerCase()}`}
                                                     onClick={(e) => {
                                                         if (isComingSoon) {
                                                             e.preventDefault();
@@ -95,7 +95,7 @@ export function Navbar() {
                                                         setIsLocationOpen(false);
                                                     }}
                                                     className={cn(
-                                                        "rounded-md px-3 py-2 text-sm transition-colors text-left flex items-center justify-between group",
+                                                        "rounded-[5px] px-3 py-2 text-sm transition-colors text-left flex items-center justify-between group",
                                                         selectedCity === city
                                                             ? "bg-primary/5 text-primary font-medium"
                                                             : isComingSoon
@@ -117,20 +117,33 @@ export function Navbar() {
                             )}
                         </AnimatePresence>
                     </div>
+
+                    {/* Desktop Menu Links */}
+                    <div className="hidden md:flex items-center gap-6 border-l border-gray-200 pl-6 ml-2">
+                        <Link 
+                            href="/developers" 
+                            className={cn(
+                                "text-sm font-semibold transition-colors uppercase tracking-wider",
+                                isTransparent ? "text-white/90 hover:text-white" : "text-gray-600 hover:text-primary"
+                            )}
+                        >
+                            Developers
+                        </Link>
+                    </div>
                 </div>
 
                 <div className="flex items-center gap-4">
                     <Link href="/post-property" className={cn(
-                        "hidden md:flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors",
+                        "hidden md:flex items-center gap-2 rounded-[5px] px-4 py-2 text-sm font-medium transition-colors",
                         isTransparent
                             ? "bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm"
-                            : "bg-secondary/10 text-secondary-foreground hover:bg-secondary/20"
+                            : "bg-secondary/10 text-secondary-foreground hover:bg-secondary/20 shadow-sm"
                     )}>
                         <span className="bg-secondary text-white rounded-full p-0.5 text-xs">FREE</span>
                         Post Property
                     </Link>
                     <button className={cn(
-                        "flex items-center gap-2 rounded-md border text-sm font-medium transition-colors p-2 md:px-4 md:py-2",
+                        "flex items-center gap-2 rounded-[5px] border text-sm font-medium transition-colors p-2 md:px-4 md:py-2",
                         isTransparent
                             ? "border-white/30 text-white hover:bg-white/10"
                             : "border-gray-200 text-gray-900 hover:bg-gray-50"
@@ -173,7 +186,7 @@ export function Navbar() {
                                         return (
                                             <Link
                                                 key={city}
-                                                href={isComingSoon ? "#" : `/city/${city.toLowerCase()}`}
+                                                href={isComingSoon ? "#" : `/projects-in-${city.toLowerCase()}`}
                                                 onClick={(e) => {
                                                     if (isComingSoon) {
                                                         e.preventDefault();
@@ -183,7 +196,7 @@ export function Navbar() {
                                                     setIsMobileMenuOpen(false);
                                                 }}
                                                 className={cn(
-                                                    "flex items-center justify-between gap-2 rounded-md border p-2 text-sm font-medium transition-colors",
+                                                    "flex items-center justify-between gap-2 rounded-[5px] border p-2 text-sm font-medium transition-colors",
                                                     selectedCity === city
                                                         ? "border-primary bg-primary/5 text-primary"
                                                         : isComingSoon
@@ -211,11 +224,22 @@ export function Navbar() {
                             <Link
                                 href="/post-property"
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="flex items-center justify-between gap-2 rounded-md bg-secondary/10 px-4 py-3 text-sm font-medium text-secondary-foreground hover:bg-secondary/20 transition-colors"
+                                className="flex items-center justify-between gap-2 rounded-[5px] bg-secondary/10 px-4 py-3 text-sm font-medium text-secondary-foreground hover:bg-secondary/20 transition-colors"
                             >
                                 <div className="flex items-center gap-2">
                                     <span>Post Property</span>
                                     <span className="bg-secondary text-white rounded-full px-1.5 py-0.5 text-[10px]">FREE</span>
+                                </div>
+                            </Link>
+
+                            <Link
+                                href="/developers"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="flex items-center justify-between gap-2 rounded-[5px] border border-gray-100 bg-gray-50/50 px-4 py-3 text-sm font-medium text-gray-700 hover:border-primary/20 hover:bg-primary/5 hover:text-primary transition-colors"
+                            >
+                                <div className="flex items-center gap-2">
+                                    <Building2 className="h-4 w-4 text-amber-500" />
+                                    <span>Browse Developers</span>
                                 </div>
                             </Link>
                         </div>

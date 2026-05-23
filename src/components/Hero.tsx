@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Search, MapPin, Home, Building2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const TABS = [
     { id: "residential", label: "Residential", icon: Home },
@@ -11,6 +12,22 @@ const TABS = [
 
 export function Hero() {
     const [activeTab, setActiveTab] = useState("residential");
+    const [searchQuery, setSearchQuery] = useState("");
+    const router = useRouter();
+
+    const handleSearch = () => {
+        if (searchQuery.trim()) {
+            router.push(`/projects?search=${encodeURIComponent(searchQuery.trim())}`);
+        } else {
+            router.push(`/projects`);
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            handleSearch();
+        }
+    };
 
     return (
         <section className="relative h-[660px] w-full flex items-center justify-center">
@@ -25,15 +42,15 @@ export function Hero() {
             </div>
 
             <div className="relative z-10 w-full max-w-4xl px-4 text-center -mt-[10%] md:mt-0">
-                <h1 className="mb-2 text-3xl font-bold text-white md:text-5xl drop-shadow-lg">
-                    Find Your <span className="text-secondary">Perfect Home</span>
+                <h1 className="mb-2 text-3xl font-bold text-white md:text-5xl drop-shadow-lg leading-tight">
+                    Find Your <span className="text-secondary">Perfect Home</span> <br className="hidden md:block" /> in Pune & PCMC
                 </h1>
                 <p className="mb-4 text-lg text-gray-200">
                     Search from over 1 million+ verified properties in Pune
                 </p>
 
                 {/* Search Card */}
-                <div className="rounded-md bg-white p-3 custom-shadow backdrop-blur-sm bg-white/95">
+                <div className="rounded-[5px] bg-white p-3 shadow-sm backdrop-blur-sm bg-white/95">
                     {/* Tabs */}
                     <div className="mb-4 flex gap-4 border-b border-gray-200 px-4 pt-2">
                         {TABS.map((tab) => {
@@ -52,7 +69,7 @@ export function Hero() {
                                     <Icon className="h-4 w-4" />
                                     {tab.label}
                                 </button>
-                            );
+                              );
                         })}
                     </div>
 
@@ -63,10 +80,16 @@ export function Hero() {
                             <input
                                 type="text"
                                 placeholder="Search by Locality, Project, or Landmark..."
-                                className="w-full rounded-md border border-gray-200 bg-gray-50 py-3 pl-10 pr-4 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 custom-shadow"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onKeyDown={handleKeyDown}
+                                className="w-full rounded-[5px] border border-gray-200 bg-gray-50 py-3 pl-10 pr-4 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-sm"
                             />
                         </div>
-                        <button className="flex items-center justify-center gap-2 rounded-md bg-primary px-8 py-3 font-semibold text-white transition-all hover:bg-primary/90 active:scale-95 custom-shadow">
+                        <button 
+                            onClick={handleSearch}
+                            className="flex items-center justify-center gap-2 rounded-[5px] bg-primary px-8 py-3 font-semibold text-white transition-all hover:bg-primary/90 active:scale-95 shadow-sm"
+                        >
                             <Search className="h-5 w-5" />
                             Search
                         </button>

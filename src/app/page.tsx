@@ -3,6 +3,7 @@ import { Hero } from "@/components/Hero";
 import { ServiceHighlights } from "@/components/ServiceHighlights";
 import { FeaturedProjects } from "@/components/FeaturedProjects";
 import { CityExplorer } from "@/components/CityExplorer";
+import { TrustedDevelopers } from "@/components/TrustedDevelopers";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
       <Hero />
       <FeaturedProjects />
       <CityExplorer />
+      <TrustedDevelopers />
       <ServiceHighlights />
       <Footer />
     </main>

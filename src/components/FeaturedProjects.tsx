@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import { MapPin, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { PROJECTS } from "@/lib/data";
+import { PROJECTS, DEVELOPERS } from "@/lib/data";
+import { Building2 } from "lucide-react";
 
 export function FeaturedProjects() {
     return (
@@ -21,23 +22,25 @@ export function FeaturedProjects() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {PROJECTS.map((project, index) => (
-                        <Link href={`/projects/${project.id}`} key={project.id} className="block">
+                    {PROJECTS.slice(0, 4).map((project, index) => {
+                        const developer = DEVELOPERS.find(d => d.id === project.developerId);
+                        return (
+                            <Link href={`/projects/${project.id}`} key={project.id} className="block">
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                                 viewport={{ once: true }}
-                                className="group cursor-pointer rounded-md border border-gray-100 bg-white custom-shadow transition-all duration-300 overflow-hidden h-full"
+                                className="group cursor-pointer rounded-[5px] border border-gray-100 bg-white shadow-sm transition-all duration-500 overflow-hidden h-full"
                             >
                                 <div className="relative h-48 w-full overflow-hidden">
                                     <Image
                                         src={project.image}
                                         alt={project.title}
                                         fill
-                                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                        className="object-cover transition-transform duration-500"
                                     />
-                                    <div className="absolute top-3 left-3 bg-secondary text-black text-xs font-bold px-3 py-1 rounded-full uppercase">
+                                    <div className="absolute top-3 left-3 bg-secondary text-black text-xs font-bold px-3 py-1 rounded-[5px] uppercase">
                                         {project.status}
                                     </div>
                                 </div>
@@ -48,6 +51,12 @@ export function FeaturedProjects() {
                                         <MapPin className="h-4 w-4" />
                                         {project.location}
                                     </div>
+                                    {developer && (
+                                        <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-400 mb-4 bg-gray-50 py-1 px-2 rounded w-fit">
+                                            <Building2 className="h-3 w-3 text-amber-500" />
+                                            {developer.name}
+                                        </div>
+                                    )}
                                     <div className="flex justify-between items-center border-t border-gray-100 pt-3">
                                         <div>
                                             <p className="text-xs text-gray-500">Starting from</p>
@@ -56,11 +65,12 @@ export function FeaturedProjects() {
                                     </div>
                                 </div>
                             </motion.div>
-                        </Link>
-                    ))}
+                            </Link>
+                        );
+                    })}
                 </div>
 
-                <button className="mt-8 md:hidden w-full flex items-center justify-center gap-2 text-primary font-semibold hover:bg-gray-50 p-3 rounded-md border border-gray-100 custom-shadow">
+                <button className="mt-8 md:hidden w-full flex items-center justify-center gap-2 text-primary font-semibold hover:bg-gray-50 p-3 rounded-[5px] border border-gray-100 shadow-sm">
                     View All Projects <ArrowRight className="h-5 w-5" />
                 </button>
             </div>

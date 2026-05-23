@@ -13,16 +13,16 @@ export function Footer() {
                             India&apos;s most trusted real estate platform. We help you find the perfect home with transparency and ease.
                         </p>
                         <div className="flex gap-4">
-                            <a href="#" className="p-2 bg-white/10 rounded-full hover:bg-primary transition-colors">
+                            <a href="#" className="p-2 bg-white/10 rounded-[5px] hover:bg-primary transition-colors">
                                 <Facebook className="h-5 w-5" />
                             </a>
-                            <a href="#" className="p-2 bg-white/10 rounded-full hover:bg-primary transition-colors">
+                            <a href="#" className="p-2 bg-white/10 rounded-[5px] hover:bg-primary transition-colors">
                                 <Twitter className="h-5 w-5" />
                             </a>
-                            <a href="#" className="p-2 bg-white/10 rounded-full hover:bg-primary transition-colors">
+                            <a href="#" className="p-2 bg-white/10 rounded-[5px] hover:bg-primary transition-colors">
                                 <Instagram className="h-5 w-5" />
                             </a>
-                            <a href="#" className="p-2 bg-white/10 rounded-full hover:bg-primary transition-colors">
+                            <a href="#" className="p-2 bg-white/10 rounded-[5px] hover:bg-primary transition-colors">
                                 <Linkedin className="h-5 w-5" />
                             </a>
                         </div>
