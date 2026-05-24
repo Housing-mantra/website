@@ -226,7 +226,12 @@ export function Navbar() {
                                 <div className="absolute right-0 mt-2 w-48 rounded-[5px] bg-white p-2 shadow-md ring-1 ring-black/5 z-50 text-gray-700">
                                     {user.role === 'ADMIN' && (
                                         <a
-                                            href="http://admin.localhost:3000"
+                                            href={
+                                                typeof window !== 'undefined' && 
+                                                (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+                                                    ? "http://admin.localhost:3000"
+                                                    : "https://admin.housingmantra.in"
+                                            }
                                             className="block rounded-[5px] px-3 py-2 text-sm hover:bg-gray-50 hover:text-primary font-medium border-b border-gray-100"
                                         >
                                             Admin Panel
