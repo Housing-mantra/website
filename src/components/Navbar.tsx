@@ -120,12 +120,12 @@ export function Navbar() {
                         </svg>
                         
                         {/* Brand Text Column */}
-                        <div className="flex flex-col items-start leading-none gap-0.5">
-                            <span className="text-xl font-black text-gray-900 tracking-tight flex items-start gap-0.5">
+                        <div className="flex flex-col items-start leading-none gap-1">
+                            <span className="text-[22px] font-oswald font-black text-gray-900 tracking-tight flex items-start gap-0.5 leading-none">
                                 HOUSING MANTRA
-                                <span className="text-[8px] font-extrabold text-gray-900 select-none">TM</span>
+                                <span className="text-[8px] font-sans font-extrabold text-gray-900 select-none mt-0.5">TM</span>
                             </span>
-                            <span className="bg-gray-900 text-white text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded-[2px] text-center whitespace-nowrap">
+                            <span className="bg-gray-900 text-white text-[9px] font-sans font-black uppercase tracking-wider px-2 py-0.5 rounded-[2px] text-center whitespace-nowrap">
                                 Everything About Real-Estate
                             </span>
                         </div>

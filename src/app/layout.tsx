@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
-import { Rubik } from "next/font/google";
+import { Rubik, Oswald } from "next/font/google";
 import "./globals.css";
 
 const rubik = Rubik({
   variable: "--font-rubik",
   subsets: ["latin"],
+});
+
+const oswald = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -76,7 +82,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${rubik.variable} antialiased font-rubik`}
+        className={`${rubik.variable} ${oswald.variable} antialiased font-rubik`}
       >
         <script
           type="application/ld+json"

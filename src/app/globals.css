@@ -51,6 +51,7 @@
   --radius-md: calc(var(--radius));
   --radius-lg: calc(var(--radius) + 2px);
   --font-sans: var(--font-rubik), ui-sans-serif, system-ui, sans-serif;
+  --font-oswald: var(--font-oswald), sans-serif;
   --color-footer: #2F0D5E;
 }
 
