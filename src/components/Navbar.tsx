@@ -199,19 +199,6 @@ export function Navbar() {
                             )}
                         </AnimatePresence>
                     </div>
-
-                    {/* Desktop Menu Links */}
-                    <div className="hidden md:flex items-center gap-6 border-l border-gray-200 pl-6 ml-2">
-                        <Link 
-                            href="/developers" 
-                            className={cn(
-                                "text-sm font-semibold transition-colors uppercase tracking-wider",
-                                isTransparent ? "text-white/90 hover:text-white" : "text-gray-600 hover:text-primary"
-                            )}
-                        >
-                            Developers
-                        </Link>
-                    </div>
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -388,17 +375,6 @@ export function Navbar() {
                                 <div className="flex items-center gap-2">
                                     <span>Post Property</span>
                                     <span className="bg-secondary text-white rounded-full px-1.5 py-0.5 text-[10px]">FREE</span>
-                                </div>
-                            </Link>
-
-                            <Link
-                                href="/developers"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className="flex items-center justify-between gap-2 rounded-[5px] border border-gray-100 bg-gray-50/50 px-4 py-3 text-sm font-medium text-gray-700 hover:border-primary/20 hover:bg-primary/5 hover:text-primary transition-colors"
-                            >
-                                <div className="flex items-center gap-2">
-                                    <Building2 className="h-4 w-4 text-amber-500" />
-                                    <span>Browse Developers</span>
                                 </div>
                             </Link>
                         </div>
