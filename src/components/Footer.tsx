@@ -8,7 +8,29 @@ export function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                     {/* Brand Column */}
                     <div>
-                        <h3 className="text-2xl font-bold mb-6">Housing Mantra</h3>
+                        <div className="mb-6">
+                            <svg className="h-10 w-auto select-none" viewBox="0 0 350 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                {/* Double bordered outer circle icon */}
+                                <circle cx="40" cy="40" r="36" fill="none" stroke="#ffffff" strokeWidth="2.5" />
+                                <circle cx="40" cy="40" r="30.5" fill="none" stroke="#ffffff" strokeWidth="1.2" />
+                                
+                                {/* Stylized house outline frame */}
+                                <path d="M40 22 L22 36 L24 55 L56 55 L58 36 Z" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinejoin="round" />
+                                
+                                {/* Solid red inner house shape */}
+                                <path d="M40 33 L30 42 L30 55 L50 55 L50 42 Z" fill="#ef4444" />
+                                
+                                {/* HOUSING MANTRA Brand Text */}
+                                <text x="90" y="38" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="900" fontSize="30" fill="#ffffff" letterSpacing="-0.5">HOUSING MANTRA</text>
+                                
+                                {/* TM Trademark */}
+                                <text x="332" y="20" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="bold" fontSize="9" fill="#ffffff">TM</text>
+                                
+                                {/* Tagline Container and Text */}
+                                <rect x="90" y="47" width="238" height="20" fill="#ffffff" rx="2" />
+                                <text x="209" y="61" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="800" fontSize="10" fill="#111827" letterSpacing="0.2" textAnchor="middle">Everything About Real-Estate</text>
+                            </svg>
+                        </div>
                         <p className="text-gray-400 mb-6 leading-relaxed">
                             India&apos;s most trusted real estate platform. We help you find the perfect home with transparency and ease.
                         </p>
