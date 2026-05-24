@@ -9,12 +9,17 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@prisma/client": "^6.19.3",
     "@tailwindcss/postcss": "^4",
     "autoprefixer": "^10.4.23",
     "axios": "^1.13.6",
+    "bcryptjs": "^3.0.3",
     "cheerio": "^1.2.0",
     "clsx": "^2.1.1",
+    "firebase": "^12.13.0",
+    "firebase-admin": "^13.10.0",
     "framer-motion": "^12.23.26",
+    "jose": "^6.2.3",
     "lucide-react": "^0.562.0",
     "next": "16.1.1",
     "postcss": "^8.5.6",
@@ -25,11 +30,13 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
+    "prisma": "^6.19.3",
     "typescript": "^5"
   }
 }

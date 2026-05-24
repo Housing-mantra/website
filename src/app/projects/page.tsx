@@ -3,7 +3,6 @@
 import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { PROJECTS, DEVELOPERS } from "@/lib/data";
 import { MapPin, Building2, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,20 +14,51 @@ function ProjectsContent() {
     const areaFilter = searchParams.get("area");
     const searchFilter = searchParams.get("search") || "";
     const [searchQuery, setSearchQuery] = useState(searchFilter);
+    const [projects, setProjects] = useState<any[]>([]);
+    const [developers, setDevelopers] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setSearchQuery(searchFilter);
     }, [searchFilter]);
 
+    useEffect(() => {
+        async function loadData() {
+            try {
+                const res = await fetch("/api/projects");
+                const data = await res.json();
+                if (data.success) {
+                    setProjects(data.projects);
+                    setDevelopers(data.developers);
+                }
+            } catch (err) {
+                console.error("Failed to load projects:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadData();
+    }, []);
+
     let filteredProjects = areaFilter 
-        ? PROJECTS.filter(p => p.location.toLowerCase().includes(areaFilter.toLowerCase()))
-        : PROJECTS;
+        ? projects.filter(p => p.location.toLowerCase().includes(areaFilter.toLowerCase()))
+        : projects;
 
     if (searchQuery) {
         const query = searchQuery.toLowerCase().trim();
         filteredProjects = filteredProjects.filter(p => 
             p.title.toLowerCase().includes(query) || 
             p.location.toLowerCase().includes(query)
+        );
+    }
+
+    if (loading) {
+        return (
+            <div className="container mx-auto px-4 py-24 text-center">
+                <div className="inline-block animate-pulse text-lg font-bold text-gray-500">
+                    Loading Projects...
+                </div>
+            </div>
         );
     }
 
@@ -58,7 +88,7 @@ function ProjectsContent() {
             {filteredProjects.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                     {filteredProjects.map((project, index) => {
-                        const developer = DEVELOPERS.find(d => d.id === project.developerId);
+                        const developer = developers.find((d: any) => d.id === project.developerId);
                         return (
                             <Link href={`/projects/${project.id}`} key={project.id} className="block">
                                 <motion.div

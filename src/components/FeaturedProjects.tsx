@@ -4,10 +4,42 @@ import { motion } from "framer-motion";
 import { MapPin, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { PROJECTS, DEVELOPERS } from "@/lib/data";
+import React, { useState, useEffect } from "react";
 import { Building2 } from "lucide-react";
 
 export function FeaturedProjects() {
+    const [projects, setProjects] = useState<any[]>([]);
+    const [developers, setDevelopers] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchFeatured() {
+            try {
+                const res = await fetch("/api/projects");
+                const data = await res.json();
+                if (data.success) {
+                    setProjects(data.projects);
+                    setDevelopers(data.developers);
+                }
+            } catch (err) {
+                console.error("Failed to load featured projects:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchFeatured();
+    }, []);
+
+    if (loading) {
+        return (
+            <section className="py-12 bg-white">
+                <div className="container mx-auto px-4 text-center py-20 animate-pulse text-lg font-bold text-gray-400">
+                    Loading Featured Projects...
+                </div>
+            </section>
+        );
+    }
+
     return (
         <section className="py-12 bg-white">
             <div className="container mx-auto px-4">
@@ -16,14 +48,14 @@ export function FeaturedProjects() {
                         <h2 className="text-3xl font-bold mb-2">Featured Projects</h2>
                         <p className="text-gray-600">Handpicked projects for you based on popularity.</p>
                     </div>
-                    <button className="hidden md:flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
+                    <Link href="/projects" className="hidden md:flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
                         View All Projects <ArrowRight className="h-5 w-5" />
-                    </button>
+                    </Link>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {PROJECTS.slice(0, 4).map((project, index) => {
-                        const developer = DEVELOPERS.find(d => d.id === project.developerId);
+                    {projects.slice(0, 4).map((project, index) => {
+                        const developer = developers.find(d => d.id === project.developerId);
                         return (
                             <Link href={`/projects/${project.id}`} key={project.id} className="block">
                             <motion.div
@@ -70,9 +102,9 @@ export function FeaturedProjects() {
                     })}
                 </div>
 
-                <button className="mt-8 md:hidden w-full flex items-center justify-center gap-2 text-primary font-semibold hover:bg-gray-50 p-3 rounded-[5px] border border-gray-100 shadow-sm">
+                <Link href="/projects" className="mt-8 md:hidden w-full flex items-center justify-center gap-2 text-primary font-semibold hover:bg-gray-50 p-3 rounded-[5px] border border-gray-100 shadow-sm">
                     View All Projects <ArrowRight className="h-5 w-5" />
-                </button>
+                </Link>
             </div>
         </section>
     );

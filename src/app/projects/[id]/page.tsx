@@ -1,17 +1,20 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { PROJECTS, DEVELOPERS } from "@/lib/data";
+import { getProjectBySlug, getDeveloperBySlug } from "@/lib/db-helpers";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { 
     MapPin, CheckCircle, ArrowLeft, Building2, Phone, Mail, 
     Calendar, Maximize, Layout, Layers, Compass, 
-    Share2, Download, ShieldCheck, GraduationCap, 
+    ShieldCheck, GraduationCap, 
     HeartPulse, Utensils, Store, Smartphone
 } from "lucide-react";
 import Link from "next/link";
+import { ProjectActions } from "@/components/ProjectActions";
 
 import { Metadata } from "next";
+
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
     params,
@@ -19,7 +22,7 @@ export async function generateMetadata({
     params: Promise<{ id: string }>;
 }): Promise<Metadata> {
     const { id } = await params;
-    const project = PROJECTS.find((p) => p.id === id);
+    const project = await getProjectBySlug(id);
 
     if (!project) {
         return {
@@ -46,25 +49,19 @@ export async function generateMetadata({
     };
 }
 
-export async function generateStaticParams() {
-    return PROJECTS.map((project) => ({
-        id: project.id,
-    }));
-}
-
 export default async function ProjectDetails({
     params,
 }: {
     params: Promise<{ id: string }>;
 }) {
     const { id } = await params;
-    const project = PROJECTS.find((p) => p.id === id) as any;
+    const project = await getProjectBySlug(id) as any;
 
     if (!project) {
         notFound();
     }
 
-    const developer = DEVELOPERS.find(d => d.id === project.developerId);
+    const developer = await getDeveloperBySlug(project.developerId);
 
     return (
         <main className="min-h-screen font-sans bg-gray-50/50 pt-16">
@@ -150,16 +147,20 @@ export default async function ProjectDetails({
             {/* Secondary Nav Bar - Matching Site Consistency */}
             <div className="sticky top-16 z-40 bg-white border-b border-gray-100 hidden md:block shadow-sm">
                 <div className="container mx-auto px-4">
-                    <div className="flex gap-8 py-5">
-                        {['Overview', 'Amenities', 'Gallery', 'Location'].map((item) => (
-                            <a 
-                                key={item} 
-                                href={`#${item.toLowerCase()}`}
-                                className="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-amber-600 transition-all"
-                            >
-                                {item}
-                            </a>
-                        ))}
+                    <div className="flex items-center justify-between py-4">
+                        <div className="flex gap-8">
+                            {['Overview', 'Amenities', 'Gallery', 'Location'].map((item) => (
+                                <a 
+                                    key={item} 
+                                    href={`#${item.toLowerCase()}`}
+                                    className="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-amber-600 transition-all"
+                                >
+                                    {item}
+                                </a>
+                            ))}
+                        </div>
+                        {/* Bookmark + Share – client-side, also logs browse history */}
+                        <ProjectActions projectId={project.id} />
                     </div>
                 </div>
             </div>

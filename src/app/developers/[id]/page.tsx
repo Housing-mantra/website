@@ -1,17 +1,14 @@
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { DEVELOPERS, PROJECTS } from "@/lib/data";
+import { getDeveloperBySlug } from "@/lib/db-helpers";
+import { adminDb } from "@/lib/firebase-admin";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, Building2, MapPin, Award, Calendar, Home, CheckCircle } from "lucide-react";
 
-export async function generateStaticParams() {
-    return DEVELOPERS.map((dev) => ({
-        id: dev.id,
-    }));
-}
+export const dynamic = 'force-dynamic';
 
 export default async function DeveloperProfile({
     params,
@@ -19,13 +16,32 @@ export default async function DeveloperProfile({
     params: Promise<{ id: string }>;
 }) {
     const { id } = await params;
-    const developer = DEVELOPERS.find((d) => d.id === id);
+    const developer = await getDeveloperBySlug(id);
 
     if (!developer) {
         notFound();
     }
 
-    const developerProjects = PROJECTS.filter((p) => p.developerId === id);
+    // Get all projects for this developer from Firestore
+    const projectsSnap = await adminDb
+        .collection('projects')
+        .where('developerId', '==', developer.id)
+        .where('isActive', '==', true)
+        .get();
+
+    const developerProjects = projectsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    // Initials & Color styling generators
+    const initials = (developer as any).initials || developer.name.split(' ').map((n: string) => n[0]).slice(0, 2).join('');
+    const randomColorClasses = ["bg-red-500 text-white", "bg-blue-500 text-white", "bg-amber-500 text-white", "bg-emerald-500 text-white"];
+    const fallbackColor = randomColorClasses[developer.name.charCodeAt(0) % randomColorClasses.length];
+    const color = (developer as any).color || fallbackColor;
+
+    // Derived statistics
+    const experience = (developer as any).experience || `${2026 - developer.established} Years`;
+    const projectsDelivered = (developer as any).projectsDelivered || Math.max(0, developer.projectsCount - 3);
+    const ongoingProjects = (developer as any).ongoingProjects || 3;
+    const about = developer.description || `Leading real estate developer committed to creating outstanding living and business spaces.`;
 
     return (
         <main className="min-h-screen bg-gray-50">
@@ -44,8 +60,8 @@ export default async function DeveloperProfile({
                 <div className="absolute inset-x-0 bottom-0 py-12">
                     <div className="container mx-auto px-4">
                         <div className="flex flex-col md:flex-row items-center md:items-end gap-6 text-white text-center md:text-left">
-                            <div className={`h-24 w-24 rounded-[5px] flex items-center justify-center text-3xl font-bold border-4 border-white/20 shadow-xl ${developer.color}`}>
-                                {developer.initials}
+                            <div className={`h-24 w-24 rounded-[5px] flex items-center justify-center text-3xl font-bold border-4 border-white/20 shadow-xl ${color}`}>
+                                {initials}
                             </div>
                             <div className="flex-1">
                                 <h1 className="text-4xl md:text-5xl font-extrabold mb-2 tracking-tight">
@@ -54,11 +70,11 @@ export default async function DeveloperProfile({
                                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-white/90 font-medium">
                                     <span className="flex items-center gap-1">
                                         <Award className="w-4 h-4 text-amber-400" />
-                                        {developer.experience} Experience
+                                        {experience} Experience
                                     </span>
                                     <span className="flex items-center gap-1">
                                         <Building2 className="w-4 h-4 text-amber-400" />
-                                        {developer.projectsCount}
+                                        {developer.projectsCount} Projects
                                     </span>
                                 </div>
                             </div>
@@ -78,24 +94,24 @@ export default async function DeveloperProfile({
                                 About {developer.name}
                             </h2>
                             <p className="text-gray-600 leading-relaxed text-lg mb-8">
-                                {developer.about}
+                                {about}
                             </p>
                             
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                                 <div className="bg-amber-50/50 p-6 rounded-[5px] border border-amber-100 text-center">
                                     <Calendar className="w-6 h-6 text-amber-600 mx-auto mb-3" />
                                     <span className="block text-gray-500 text-xs font-semibold uppercase mb-1">Established</span>
-                                    <span className="block text-gray-900 font-bold text-xl">{developer.experience.split(' ')[0]} Yrs Ago</span>
+                                    <span className="block text-gray-900 font-bold text-xl">{developer.established}</span>
                                 </div>
                                 <div className="bg-amber-50/50 p-6 rounded-[5px] border border-amber-100 text-center">
                                     <CheckCircle className="w-6 h-6 text-amber-600 mx-auto mb-3" />
                                     <span className="block text-gray-500 text-xs font-semibold uppercase mb-1">Delivered</span>
-                                    <span className="block text-gray-900 font-bold text-xl">{developer.projectsDelivered}</span>
+                                    <span className="block text-gray-900 font-bold text-xl">{projectsDelivered}</span>
                                 </div>
                                 <div className="bg-amber-50/50 p-6 rounded-[5px] border border-amber-100 text-center">
                                     <Home className="w-6 h-6 text-amber-600 mx-auto mb-3" />
                                     <span className="block text-gray-500 text-xs font-semibold uppercase mb-1">Ongoing</span>
-                                    <span className="block text-gray-900 font-bold text-xl">{developer.ongoingProjects}</span>
+                                    <span className="block text-gray-900 font-bold text-xl">{ongoingProjects}</span>
                                 </div>
                             </div>
                         </section>
@@ -110,7 +126,7 @@ export default async function DeveloperProfile({
                             </div>
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                {developerProjects.map((project) => (
+                                {developerProjects.map((project: any) => (
                                     <Link 
                                         href={`/projects/${project.id}`} 
                                         key={project.id}

@@ -1,13 +1,12 @@
 "use client";
 
+import React, { use, useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { PROJECTS, DEVELOPERS } from "@/lib/data";
 import { MapPin, Building2, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { use, useState } from "react";
 
 interface PageProps {
     params: Promise<{ locality: string }>;
@@ -16,6 +15,27 @@ interface PageProps {
 export default function LocalityProjectsPage({ params }: PageProps) {
     const { locality } = use(params);
     const [searchQuery, setSearchQuery] = useState("");
+    const [projects, setProjects] = useState<any[]>([]);
+    const [developers, setDevelopers] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadData() {
+            try {
+                const res = await fetch("/api/projects");
+                const data = await res.json();
+                if (data.success) {
+                    setProjects(data.projects);
+                    setDevelopers(data.developers);
+                }
+            } catch (err) {
+                console.error("Failed to load regional projects:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadData();
+    }, []);
     
     // Decode and format the locality (e.g., pimpri-pune -> pimpri pune)
     const displayLocality = locality
@@ -23,7 +43,7 @@ export default function LocalityProjectsPage({ params }: PageProps) {
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
 
-    let filteredProjects = PROJECTS.filter(p => 
+    let filteredProjects = projects.filter(p => 
         p.location.toLowerCase().includes(displayLocality.toLowerCase()) ||
         locality.toLowerCase().includes(p.location.toLowerCase().replace(/ /g, '-'))
     );
@@ -33,6 +53,18 @@ export default function LocalityProjectsPage({ params }: PageProps) {
         filteredProjects = filteredProjects.filter(p => 
             p.title.toLowerCase().includes(query) || 
             p.location.toLowerCase().includes(query)
+        );
+    }
+
+    if (loading) {
+        return (
+            <main className="min-h-screen bg-white">
+                <Navbar />
+                <div className="container mx-auto px-4 py-24 text-center animate-pulse text-lg font-bold text-gray-400 mt-16">
+                    Loading Regional Projects...
+                </div>
+                <Footer />
+            </main>
         );
     }
 
@@ -64,7 +96,7 @@ export default function LocalityProjectsPage({ params }: PageProps) {
                 {filteredProjects.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                         {filteredProjects.map((project, index) => {
-                            const developer = DEVELOPERS.find(d => d.id === project.developerId);
+                            const developer = developers.find(d => d.id === project.developerId);
                             return (
                                 <Link href={`/projects/${project.id}`} key={project.id} className="block">
                                     <motion.div

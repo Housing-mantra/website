@@ -1,0 +1,133 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String          @id @default(uuid())
+  email         String          @unique
+  name          String?
+  phone         String?
+  passwordHash  String          // Password hashed with bcrypt
+  role          String          @default("CUSTOMER") // "CUSTOMER", "AGENT", "ADMIN"
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  
+  // Relations
+  bookmarks     Bookmark[]
+  history       BrowseHistory[]
+  leadsSent     Lead[]
+  postedProperties Project[]    @relation("PostedByUser")
+}
+
+model Developer {
+  id            String    @id @default(uuid())
+  slug          String    @unique
+  name          String
+  logo          String
+  description   String?
+  established   Int?
+  projectsCount Int       @default(0)
+  createdAt     DateTime  @default(now())
+  
+  // Relations
+  projects      Project[]
+}
+
+model Project {
+  id            String        @id @default(uuid())
+  slug          String        @unique
+  title         String
+  description   String
+  image         String        // Main Banner image
+  gallery       String        // Stored as JSON stringified array of image URLs
+  status        String        @default("ONGOING") // "UNDER_CONSTRUCTION", "NEWLY_LAUNCHED", "READY_TO_MOVE", "ONGOING"
+  type          String        // e.g. "Apartment", "Villa", "Plot"
+  price         String        // Display price (e.g. "59.62 Lacs onwards")
+  location      String        // Locality (e.g. "Charholi Budruk, Pune")
+  city          String        @default("Pune")
+  possession    String?       // e.g., "Dec 2027"
+  units         String?
+  landArea      String?
+  towers        String?
+  rera          String?
+  features      String        // Stored as JSON stringified array of amenities (e.g. ["Gym", "Pool", "Clubhouse"])
+  
+  // Relations
+  developerId   String
+  developer     Developer     @relation(fields: [developerId], references: [id])
+  postedById    String?
+  postedBy      User?         @relation("PostedByUser", fields: [postedById], references: [id])
+  
+  // Nested Floor Plans & Connectivity
+  floorPlans    FloorPlan[]
+  attractions   Attraction[]
+  
+  // System Fields
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  // User Actions Relationships
+  bookmarkedBy  Bookmark[]
+  historyViewed BrowseHistory[]
+  leads         Lead[]
+}
+
+model FloorPlan {
+  id        String   @id @default(uuid())
+  title     String   // e.g., "2 BHK Compact"
+  area      String   // e.g., "750 Sq.Ft."
+  price     String   // e.g., "55 Lacs"
+  image     String   // Blueprint image URL
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Attraction {
+  id        String   @id @default(uuid())
+  category  String   // e.g., "Education", "Healthcare", "Shopping"
+  name      String   // e.g., "D-Mart", "Orchid School"
+  distance  String   // e.g., "1.5 Km"
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Bookmark {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, projectId])
+}
+
+model BrowseHistory {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  viewedAt  DateTime @default(now())
+}
+
+model Lead {
+  id          String   @id @default(uuid())
+  name        String
+  mobile      String
+  email       String?
+  message     String?
+  queryForm   String   @default("Website Enquiry")
+  projectId   String?
+  project     Project? @relation(fields: [projectId], references: [id])
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  crmSynced   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
