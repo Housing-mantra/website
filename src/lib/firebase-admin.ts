@@ -2,18 +2,61 @@ import { initializeApp, getApps, cert, type ServiceAccount } from 'firebase-admi
 import { getFirestore } from 'firebase-admin/firestore';
 import { getAuth } from 'firebase-admin/auth';
 
-const serviceAccount: ServiceAccount = {
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-  // Private key comes with \n as literal string from env — convert them
-  privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-};
+let adminApp: any = null;
 
-// Initialize Firebase Admin (prevent double init in dev hot-reload)
-const adminApp = getApps().length === 0
-  ? initializeApp({ credential: cert(serviceAccount) })
-  : getApps()[0];
+function getAdminApp() {
+  if (adminApp) return adminApp;
+  
+  const apps = getApps();
+  if (apps.length > 0) {
+    adminApp = apps[0];
+    return adminApp;
+  }
 
-export const adminDb = getFirestore(adminApp);
-export const adminAuth = getAuth(adminApp);
-export default adminApp;
+  const projectId = process.env.FIREBASE_PROJECT_ID || 'housing-mantra-9d7e8';
+  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+  const privateKey = process.env.FIREBASE_PRIVATE_KEY;
+
+  if (!privateKey || !clientEmail) {
+    console.warn("WARNING: Firebase Admin credentials not fully loaded in environment variables. Initializing fallback client.");
+    adminApp = initializeApp({ projectId });
+    return adminApp;
+  }
+
+  const serviceAccount: ServiceAccount = {
+    projectId,
+    clientEmail,
+    privateKey: privateKey.replace(/\\n/g, '\n'),
+  };
+
+  adminApp = initializeApp({ credential: cert(serviceAccount) });
+  return adminApp;
+}
+
+// Lazy loaded Proxy for Firestore
+export const adminDb = new Proxy({} as any, {
+  get(target, prop) {
+    const app = getAdminApp();
+    const dbInstance = getFirestore(app);
+    const value = (dbInstance as any)[prop];
+    if (typeof value === 'function') {
+      return value.bind(dbInstance);
+    }
+    return value;
+  }
+}) as ReturnType<typeof getFirestore>;
+
+// Lazy loaded Proxy for Firebase Auth
+export const adminAuth = new Proxy({} as any, {
+  get(target, prop) {
+    const app = getAdminApp();
+    const authInstance = getAuth(app);
+    const value = (authInstance as any)[prop];
+    if (typeof value === 'function') {
+      return value.bind(authInstance);
+    }
+    return value;
+  }
+}) as ReturnType<typeof getAuth>;
+
+export default getAdminApp;
