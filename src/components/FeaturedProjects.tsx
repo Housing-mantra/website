@@ -1,10 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, ArrowRight, Building2, ShieldCheck, Heart } from "lucide-react";
-import Image from "next/image";
+import { MapPin, ArrowRight, Building2, ShieldCheck, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { PROJECTS, DEVELOPERS } from "@/lib/data";
 
 // Order of projects from folders 2 to 11
@@ -25,6 +24,11 @@ export function FeaturedProjects() {
   const [featuredProjects, setFeaturedProjects] = useState<any[]>([]);
   const [developersList, setDevelopersList] = useState<any[]>(DEVELOPERS);
   const [loading, setLoading] = useState(true);
+  
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
   useEffect(() => {
     async function fetchFeatured() {
@@ -54,13 +58,11 @@ export function FeaturedProjects() {
           return PROJECTS.find(p => p.id === id);
         }).filter(Boolean);
 
-        // On the homepage Featured section, display exactly 4 projects
-        setFeaturedProjects(orderedFeatured.slice(0, 4));
+        setFeaturedProjects(orderedFeatured);
       } catch (err) {
         console.error("Failed to load featured projects:", err);
-        // Direct static fallback
         const staticFeatured = FEATURED_IDS.map(id => PROJECTS.find(p => p.id === id)).filter(Boolean);
-        setFeaturedProjects(staticFeatured.slice(0, 4));
+        setFeaturedProjects(staticFeatured);
       } finally {
         setLoading(false);
       }
@@ -68,21 +70,86 @@ export function FeaturedProjects() {
     fetchFeatured();
   }, []);
 
+  // Helper functions to dynamically extract BHK and Area ranges from configurations
+  const getBHKRange = (project: any) => {
+    if (project.configurations && project.configurations.length > 0) {
+      const nums = project.configurations
+        .map((c: any) => c.type.replace(/[^0-9]/g, ""))
+        .filter(Boolean);
+      if (nums.length > 0) {
+        const uniqueNums = Array.from(new Set(nums)).sort();
+        return uniqueNums.join(",") + " BHK";
+      }
+    }
+    const match = project.type?.match(/\d+/g);
+    if (match) {
+      return Array.from(new Set(match)).sort().join(",") + " BHK";
+    }
+    return "2,3 BHK";
+  };
+
+  const getAreaRange = (project: any) => {
+    if (project.configurations && project.configurations.length > 0) {
+      const areas = project.configurations.map((c: any) => c.area);
+      const allNumbers: number[] = [];
+      areas.forEach((a: string) => {
+        const matches = a.replace(/,/g, "").match(/\d+/g);
+        if (matches) {
+          matches.forEach(num => allNumbers.push(parseInt(num)));
+        }
+      });
+      if (allNumbers.length > 0) {
+        const min = Math.min(...allNumbers);
+        const max = Math.max(...allNumbers);
+        if (min === max) {
+          return `${min} Sq Ft`;
+        }
+        return `${min} - ${max} Sq Ft`;
+      }
+    }
+    return "695 - 1375 Sq Ft";
+  };
+
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      const maxScroll = scrollWidth - clientWidth;
+      
+      if (maxScroll > 0) {
+        setScrollProgress((scrollLeft / maxScroll) * 100);
+      }
+      
+      setCanScrollLeft(scrollLeft > 10);
+      setCanScrollRight(scrollLeft < maxScroll - 10);
+    }
+  };
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollContainerRef.current) {
+      const { clientWidth } = scrollContainerRef.current;
+      const scrollAmount = direction === "left" ? -clientWidth * 0.8 : clientWidth * 0.8;
+      scrollContainerRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   if (loading) {
     return (
-      <section className="py-20 bg-gray-50/50">
+      <section className="py-24 bg-gray-50/30">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="flex flex-col gap-3 mb-12">
-            <div className="h-8 w-48 bg-gray-200 rounded animate-pulse" />
-            <div className="h-4 w-72 bg-gray-200 rounded animate-pulse" />
+            <div className="h-4 w-32 bg-gray-200 rounded animate-pulse" />
+            <div className="h-8 w-64 bg-gray-200 rounded animate-pulse mt-2" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-96 w-full bg-white border border-gray-100 rounded-[5px] animate-pulse p-5 space-y-4">
-                <div className="h-48 w-full bg-gray-200 rounded-[5px]" />
-                <div className="h-6 w-3/4 bg-gray-200 rounded" />
-                <div className="h-4 w-1/2 bg-gray-200 rounded" />
-                <div className="h-10 w-full bg-gray-200 rounded" />
+          <div className="flex gap-8 overflow-hidden">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-[480px] min-w-[380px] bg-white border border-gray-100 rounded-[5px] animate-pulse p-6 space-y-4 shrink-0">
+                <div className="h-56 w-full bg-gray-200 rounded-[5px]" />
+                <div className="h-6 w-3/4 bg-gray-200 rounded animate-pulse" />
+                <div className="h-4 w-1/2 bg-gray-200 rounded animate-pulse" />
+                <div className="h-12 w-full bg-gray-200 rounded animate-pulse" />
               </div>
             ))}
           </div>
@@ -92,107 +159,165 @@ export function FeaturedProjects() {
   }
 
   return (
-    <section className="py-20 bg-gray-50/50 font-sans">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
-          <div>
-            <span className="text-primary text-[10px] font-black uppercase tracking-widest bg-primary/5 px-3 py-1.5 rounded-[3px] border border-primary/10">
-              Verified Collection
-            </span>
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mt-4 tracking-tight uppercase">
-              Featured Projects
-            </h2>
-            <p className="text-gray-500 mt-2 font-medium text-sm md:text-base">
-              Premium handpicked projects from Pune's finest developer folders (2-11)
-            </p>
-          </div>
-          <Link
-            href="/projects"
-            className="group flex items-center gap-2.5 bg-primary hover:bg-primary/95 text-white font-bold text-xs px-5 py-3.5 rounded-[5px] transition-all shadow-md shadow-primary/10 hover:shadow-lg hover:shadow-primary/20 active:scale-[0.98]"
-          >
-            Explore All Projects
-            <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+    <section className="py-20 bg-[#fafbfc] font-sans relative overflow-hidden">
+      <div className="container mx-auto px-4 max-w-7xl relative z-10">
+        
+        {/* Section Header */}
+        <div className="flex flex-col items-center text-center mb-12">
+          <h2 className="text-3xl md:text-[38px] font-extrabold text-[#1b2534] tracking-tight leading-tight">
+            What Are the <span className="text-primary font-black">Trending New Projects</span> in Pune
+          </h2>
+          <p className="text-[#6f7e92] mt-3 font-medium text-sm md:text-[15px] max-w-3xl">
+            Explore top-rated, RERA-verified projects from trusted developers across Pune's fastest-growing markets.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredProjects.map((project, index) => {
-            const devId = project.developerId || project.developer?.id;
-            const developer = developersList.find(d => d.id === devId);
-            
-            return (
-              <Link href={`/projects/${project.id}`} key={project.id} className="block group">
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.3) }}
-                  viewport={{ once: true }}
-                  className="relative rounded-[5px] border border-gray-100 bg-white shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden h-full flex flex-col"
+        {/* Carousel container with chevrons */}
+        <div className="relative group/carousel">
+          
+          {/* Scroll Navigation Chevrons - Elegant side absolute layout or top header */}
+          <div className="absolute top-1/2 -translate-y-1/2 -left-4 z-20 transition-opacity duration-300">
+            <button
+              onClick={() => scroll("left")}
+              disabled={!canScrollLeft}
+              className={`p-3.5 rounded-full border bg-white border-[#eef2f6] shadow-md transition-all duration-300 flex items-center justify-center ${
+                canScrollLeft
+                  ? "hover:bg-primary hover:text-white text-gray-700 cursor-pointer active:scale-90"
+                  : "opacity-0 pointer-events-none"
+              }`}
+              title="Scroll Left"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+          </div>
+
+          <div className="absolute top-1/2 -translate-y-1/2 -right-4 z-20 transition-opacity duration-300">
+            <button
+              onClick={() => scroll("right")}
+              disabled={!canScrollRight}
+              className={`p-3.5 rounded-full border bg-white border-[#eef2f6] shadow-md transition-all duration-300 flex items-center justify-center ${
+                canScrollRight
+                  ? "hover:bg-primary hover:text-white text-gray-700 cursor-pointer active:scale-90"
+                  : "opacity-0 pointer-events-none"
+              }`}
+              title="Scroll Right"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+
+          {/* Horizontal Scrollable Wrapper */}
+          <div
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+            className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-8 scrollbar-none"
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+          >
+            {featuredProjects.map((project, index) => {
+              const devId = project.developerId || project.developer?.id;
+              const developer = developersList.find(d => d.id === devId);
+              
+              return (
+                <Link
+                  href={`/projects/${project.id}`}
+                  key={project.id}
+                  className="block shrink-0 w-[85vw] sm:w-[45vw] md:w-[31.5vw] min-w-[300px] max-w-[380px] snap-start group"
                 >
-                  {/* Image and Status Tag */}
-                  <div className="relative h-56 w-full overflow-hidden shrink-0">
-                    <img
-                      src={project.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1000&auto=format&fit=crop"}
-                      alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                    
-                    {/* Status badge */}
-                    <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md text-primary text-[9px] font-black px-3 py-1.5 rounded-[3px] uppercase tracking-wider border border-primary/10 shadow-sm">
-                      {project.status || "Ongoing"}
-                    </div>
-
-                    {/* RERA Badge if exists */}
-                    {project.rera && (
-                      <div className="absolute top-4 right-4 bg-primary text-white text-[9px] font-black px-3 py-1.5 rounded-[3px] uppercase tracking-wider shadow-sm flex items-center gap-1">
-                        <ShieldCheck className="h-3 w-3 text-secondary" />
-                        RERA Approved
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.3) }}
+                    viewport={{ once: true }}
+                    className="relative rounded-[5px] border border-gray-100 bg-white shadow-sm hover:shadow-md hover:border-gray-200 transition-all duration-300 overflow-hidden h-[460px] flex flex-col justify-between"
+                  >
+                    {/* Image Block */}
+                    <div className="relative h-[230px] w-full overflow-hidden shrink-0 rounded-t-[5px]">
+                      <img
+                        src={project.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1000&auto=format&fit=crop"}
+                        alt={project.title}
+                        className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                      
+                      {/* Watermark logo style */}
+                      <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-primary text-[9px] font-black px-2.5 py-1.5 rounded-[4px] uppercase tracking-wider shadow-sm border border-gray-100">
+                        {project.status ? project.status.split(" ")[0] : "Active"}
                       </div>
-                    )}
-                  </div>
 
-                  {/* Details block */}
-                  <div className="p-6 flex-1 flex flex-col justify-between">
-                    <div>
-                      {/* Developer tag */}
-                      {developer && (
-                        <div className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-gray-400 mb-3 bg-gray-50 border border-gray-100 py-1 px-2.5 rounded-[3px] w-fit">
-                          <Building2 className="h-3 w-3 text-secondary fill-secondary/10" />
-                          {developer.name}
+                      {/* RERA Badge top-right */}
+                      {project.rera && (
+                        <div className="absolute top-4 right-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[8px] font-black px-2.5 py-1.5 rounded-[4px] uppercase tracking-wider shadow-sm flex items-center gap-1">
+                          <ShieldCheck className="h-3 w-3 text-white" />
+                          RERA Approved
                         </div>
                       )}
-
-                      <h3 className="text-xl font-extrabold text-gray-900 mb-1 group-hover:text-primary transition-colors line-clamp-1 leading-snug">
-                        {project.title}
-                      </h3>
-                      
-                      <div className="flex items-center gap-1.5 text-gray-500 text-xs font-semibold mb-4">
-                        <MapPin className="h-4 w-4 text-primary shrink-0" />
-                        {project.location}
-                      </div>
-
-                      <p className="text-gray-400 text-xs font-medium line-clamp-2 leading-relaxed mb-6">
-                        {project.description || "Premium high-rise tower configuration designed for ultimate residential luxury and connectivity."}
-                      </p>
                     </div>
 
-                    <div className="flex items-center justify-between border-t border-gray-50 pt-5 mt-auto">
+                    {/* Card Body */}
+                    <div className="p-5 flex-1 flex flex-col justify-between bg-white rounded-b-[5px]">
                       <div>
-                        <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest leading-none mb-1">Starting from</p>
-                        <p className="font-black text-lg text-primary leading-none tracking-tight">₹ {project.price}</p>
+                        {/* Title */}
+                        <h3 className="text-[#1b2534] text-lg font-bold group-hover:text-primary transition-colors line-clamp-1 leading-snug mb-1">
+                          {project.title}
+                        </h3>
+                        
+                        {/* Location */}
+                        <div className="flex items-center gap-1 text-[#6f7e92] text-[13px] font-medium mb-3">
+                          <MapPin className="h-3.5 w-3.5 text-[#6f7e92] shrink-0" />
+                          {project.location}
+                        </div>
+
+                        {/* Price */}
+                        <p className="text-[#1b2534] text-base font-extrabold tracking-tight">
+                          ₹ {project.price.includes("onwards") ? project.price.replace("onwards", "") : project.price}
+                        </p>
                       </div>
-                      <span className="text-[10px] font-bold text-secondary bg-primary hover:bg-primary/95 px-3 py-2 rounded-[3px] uppercase tracking-wider transition-colors">
-                        View Details
-                      </span>
+
+                      {/* Bottom Section with Dotted Line & Columns */}
+                      <div className="mt-auto">
+                        {/* Dotted Divider line */}
+                        <div className="border-t border-dashed border-[#eef2f6] my-4 w-full" />
+                        
+                        {/* Metadata Grid */}
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <p className="text-[#a0aebf] text-[9px] uppercase font-extrabold tracking-widest mb-0.5">BHK</p>
+                            <p className="text-[#1b2534] text-[13px] font-extrabold tracking-tight line-clamp-1">
+                              {getBHKRange(project)}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-[#a0aebf] text-[9px] uppercase font-extrabold tracking-widest mb-0.5">AREA</p>
+                            <p className="text-[#1b2534] text-[13px] font-extrabold tracking-tight line-clamp-1">
+                              {getAreaRange(project)}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
-                  </div>
-                </motion.div>
-              </Link>
-            );
-          })}
+                  </motion.div>
+                </Link>
+              );
+            })}
+          </div>
+
         </div>
+
+        {/* Dynamic Scroll Progress Bar */}
+        <div className="mt-6 flex flex-col items-center gap-3">
+          <div className="w-48 h-[3px] bg-gray-100 rounded-full overflow-hidden relative">
+            <div
+              className="h-full bg-primary transition-all duration-150 rounded-full"
+              style={{ width: `${Math.max(scrollProgress, 5)}%` }}
+            />
+          </div>
+        </div>
+
       </div>
     </section>
   );
