@@ -24,19 +24,15 @@ function getAdminApp() {
   }
 
   // Robustly clean private key for Vercel / serverless deployments
-  privateKey = privateKey.trim();
+  let cleanedKey = privateKey.trim();
   
-  // 1. Strip surrounding double or single quotes added by dashboard copy-pasting
-  if (privateKey.startsWith('"') && privateKey.endsWith('"')) {
-    privateKey = privateKey.substring(1, privateKey.length - 1);
-  }
-  if (privateKey.startsWith("'") && privateKey.endsWith("'")) {
-    privateKey = privateKey.substring(1, privateKey.length - 1);
-  }
+  // 1. Strip surrounding double or single quotes added by dashboard copy-pasting, handling whitespace
+  cleanedKey = cleanedKey.replace(/^['"]|['"]$/g, '').trim();
 
   // 2. Normalize and replace literal escaped newlines with actual newline characters
-  privateKey = privateKey.replace(/\\n/g, '\n');
-  privateKey = privateKey.replace(/\\\\n/g, '\n');
+  cleanedKey = cleanedKey.replace(/\\+n/g, '\n').replace(/\\n/g, '\n');
+
+  privateKey = cleanedKey;
 
   const serviceAccount: ServiceAccount = {
     projectId,
