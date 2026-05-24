@@ -110,28 +110,25 @@ export function Navbar() {
         >
             <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
                 <div className="flex items-center gap-6">
-                    <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
-                        <svg className="h-10 w-auto select-none" viewBox="0 0 350 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            {/* Double bordered outer circle icon */}
+                    <Link href="/" className="flex items-center gap-3 select-none" onClick={() => setIsMobileMenuOpen(false)}>
+                        {/* Beautiful sharp icon */}
+                        <svg className="h-10 w-10 shrink-0" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="40" cy="40" r="36" fill="none" stroke="#111827" strokeWidth="2.5" />
                             <circle cx="40" cy="40" r="30.5" fill="none" stroke="#111827" strokeWidth="1.2" />
-                            
-                            {/* Stylized house outline frame */}
                             <path d="M40 22 L22 36 L24 55 L56 55 L58 36 Z" fill="none" stroke="#111827" strokeWidth="2.5" strokeLinejoin="round" />
-                            
-                            {/* Solid red inner house shape */}
                             <path d="M40 33 L30 42 L30 55 L50 55 L50 42 Z" fill="#b91c1c" />
-                            
-                            {/* HOUSING MANTRA Brand Text */}
-                            <text x="90" y="38" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="900" fontSize="30" fill="#111827" letterSpacing="-0.5">HOUSING MANTRA</text>
-                            
-                            {/* TM Trademark */}
-                            <text x="332" y="20" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="bold" fontSize="9" fill="#111827">TM</text>
-                            
-                            {/* Tagline Container and Text */}
-                            <rect x="90" y="47" width="238" height="20" fill="#111827" rx="2" />
-                            <text x="209" y="61" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="800" fontSize="10" fill="#ffffff" letterSpacing="0.2" textAnchor="middle">Everything About Real-Estate</text>
                         </svg>
+                        
+                        {/* Brand Text Column */}
+                        <div className="flex flex-col items-start leading-none gap-0.5">
+                            <span className="text-xl font-black text-gray-900 tracking-tight flex items-start gap-0.5">
+                                HOUSING MANTRA
+                                <span className="text-[8px] font-extrabold text-gray-900 select-none">TM</span>
+                            </span>
+                            <span className="bg-gray-900 text-white text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded-[2px] text-center whitespace-nowrap">
+                                Everything About Real-Estate
+                            </span>
+                        </div>
                     </Link>
 
                     {/* Desktop Location Dropdown */}
