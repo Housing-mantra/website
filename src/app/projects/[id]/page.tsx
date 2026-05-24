@@ -32,17 +32,17 @@ export async function generateMetadata({
     }
 
     return {
-        title: project.title,
-        description: project.description.substring(0, 160),
+        title: project.title || "Project Details",
+        description: project.description?.substring(0, 160) || project.title || "Premium Real Estate Project",
         openGraph: {
-            title: `${project.title} - ${project.location}`,
-            description: project.description?.substring(0, 160) || project.title,
+            title: `${project.title || "Project"} - ${project.location || "Pune"}`,
+            description: project.description?.substring(0, 160) || project.title || "",
             images: [
                 {
-                    url: project.image,
+                    url: project.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1200&auto=format&fit=crop",
                     width: 1200,
                     height: 630,
-                    alt: project.title,
+                    alt: project.title || "Project Image",
                 }
             ],
         },
@@ -61,7 +61,13 @@ export default async function ProjectDetails({
         notFound();
     }
 
-    const developer = await getDeveloperBySlug(project.developerId);
+    const developer = project.developerId ? await getDeveloperBySlug(project.developerId) : null;
+
+    // Safe fallbacks for lists
+    const features = project.features || [];
+    const gallery = project.gallery || [];
+    const floorPlans = project.floorPlans || [];
+    const attractions = project.attractions || [];
 
     return (
         <main className="min-h-screen font-sans bg-gray-50/50 pt-16">
@@ -71,20 +77,20 @@ export default async function ProjectDetails({
                     __html: JSON.stringify({
                         "@context": "https://schema.org",
                         "@type": "RealEstateListing",
-                        "name": project.title,
-                        "description": project.description,
+                        "name": project.title || "Project Details",
+                        "description": project.description || "",
                         "url": `https://housingmantra.in/projects/${project.id}`,
-                        "image": project.image,
+                        "image": project.image || "",
                         "address": {
                             "@type": "PostalAddress",
-                            "addressLocality": project.location,
+                            "addressLocality": project.location || "Pune",
                             "addressRegion": "Maharashtra",
                             "addressCountry": "IN"
                         },
                         "offers": {
                             "@type": "Offer",
                             "priceCurrency": "INR",
-                            "price": project.price,
+                            "price": project.price || "",
                             "availability": "https://schema.org/InStock"
                         }
                     })
@@ -95,8 +101,8 @@ export default async function ProjectDetails({
             {/* Clean Professional Hero Section */}
             <div className="relative h-[65vh] min-h-[500px] w-full overflow-hidden">
                 <Image
-                    src={project.image}
-                    alt={project.title}
+                    src={project.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1000&auto=format&fit=crop"}
+                    alt={project.title || "Project Details"}
                     fill
                     className="object-cover"
                     priority
@@ -111,26 +117,26 @@ export default async function ProjectDetails({
                                 <span>/</span>
                                 <Link href="/projects" className="hover:text-amber-400 transition-colors">Pune Projects</Link>
                                 <span>/</span>
-                                <span className="text-white">{project.title}</span>
+                                <span className="text-white">{project.title || "Details"}</span>
                             </nav>
 
                             <div className="flex flex-wrap items-center gap-3 mb-6">
                                 <span className="px-4 py-1.5 bg-amber-600 text-white text-[10px] font-bold rounded-[5px] tracking-widest uppercase shadow-sm">
-                                    {project.status}
+                                    {project.status || "Ongoing"}
                                 </span>
                                 <span className="px-4 py-1.5 bg-white/10 backdrop-blur-md text-white text-[10px] font-bold rounded-[5px] tracking-widest uppercase border border-white/20">
-                                    {project.type}
+                                    {project.type || "Apartment"}
                                 </span>
                             </div>
 
                             <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 uppercase tracking-tight">
-                                {project.title}
+                                {project.title || "Premium Project"}
                             </h1>
                             
                             <div className="flex flex-wrap items-center gap-8">
                                 <div className="flex items-center gap-2 text-white/90">
                                     <MapPin className="h-5 w-5 text-amber-500" />
-                                    <span className="text-lg font-bold">{project.location}</span>
+                                    <span className="text-lg font-bold">{project.location || "Pune"}</span>
                                 </div>
                                 {developer && (
                                     <Link href={`/developers/${developer.id}`} className="flex items-center gap-2 text-white/90 group">
@@ -174,17 +180,17 @@ export default async function ProjectDetails({
                             <div className="bg-white rounded-[5px] p-10 border border-gray-100 shadow-sm">
                                 <h2 className="text-3xl font-extrabold text-gray-900 mb-4">Project Overview</h2>
                                 <p className="text-gray-600 leading-relaxed text-lg mb-10">
-                                    {project.description}
+                                    {project.description || "Premium residential project with modern configurations and state of the art layouts."}
                                 </p>
 
                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                                     {[
-                                        { label: 'Possession', value: project.possession, icon: Calendar },
-                                        { label: 'Units', value: project.units, icon: Building2 },
-                                        { label: 'Land Area', value: project.landArea, icon: Maximize },
-                                        { label: 'Towers', value: project.towers, icon: Layers },
-                                        { label: 'RERA ID', value: project.rera, icon: ShieldCheck },
-                                        { label: 'Type', value: project.type, icon: Layout }
+                                        { label: 'Possession', value: project.possession || "On Request", icon: Calendar },
+                                        { label: 'Units', value: project.units || "Premium", icon: Building2 },
+                                        { label: 'Land Area', value: project.landArea || "On Request", icon: Maximize },
+                                        { label: 'Towers', value: project.towers || "On Request", icon: Layers },
+                                        { label: 'RERA ID', value: project.rera || "Registered", icon: ShieldCheck },
+                                        { label: 'Type', value: project.type || "Apartment", icon: Layout }
                                     ].map((stat, i) => (
                                         <div key={i} className="p-5 rounded-[5px] bg-gray-50 border border-gray-100">
                                             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{stat.label}</p>
@@ -195,112 +201,120 @@ export default async function ProjectDetails({
                             </div>
                         </section>
 
-                        <section id="amenities" className="scroll-mt-32">
-                            <div className="bg-white rounded-[5px] p-10 border border-gray-100 shadow-sm">
-                                <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Amenities</h2>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                                    {project.features.map((feature: string, index: number) => (
-                                        <div key={index} className="flex flex-col gap-3">
-                                            <div className="h-10 w-10 rounded-[5px] bg-gray-50 border border-gray-100 flex items-center justify-center text-amber-600">
-                                                <CheckCircle className="h-5 w-5" />
-                                            </div>
-                                            <span className="text-gray-900 font-bold text-xs uppercase tracking-wider">{feature}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* Floor Plans Section (Legacy but Improved) */}
-                        <section id="floor-plans" className="scroll-mt-36">
-                            <div className="bg-white rounded-[5px] p-10 shadow-sm border border-gray-100">
-                                <div className="flex items-center gap-5 mb-8 border-b border-gray-50 pb-6">
-                                    <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Floor Plans</h2>
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                    {project.floorPlans?.map((plan: any, idx: number) => (
-                                        <div key={idx} className="bg-gray-50/50 rounded-[5px] p-2 border border-gray-100 overflow-hidden group">
-                                            <div className="relative aspect-square rounded-[5px] overflow-hidden bg-white mb-4">
-                                                <Image
-                                                    src={plan.image}
-                                                    alt={plan.title}
-                                                    fill
-                                                    className="object-contain p-8 transition-transform duration-700"
-                                                />
-                                            </div>
-                                            <div className="px-6 py-4 flex flex-col gap-2">
-                                                <h3 className="text-lg font-bold text-gray-900 uppercase tracking-tight">{plan.title}</h3>
-                                                <div className="flex justify-between items-center text-sm">
-                                                    <span className="text-gray-500 font-bold uppercase tracking-widest text-[10px]">Area: {plan.area}</span>
-                                                    <span className="text-primary font-bold">₹ {plan.price}</span>
+                        {features.length > 0 && (
+                            <section id="amenities" className="scroll-mt-32">
+                                <div className="bg-white rounded-[5px] p-10 border border-gray-100 shadow-sm">
+                                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Amenities</h2>
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                                        {features.map((feature: string, index: number) => (
+                                            <div key={index} className="flex flex-col gap-3">
+                                                <div className="h-10 w-10 rounded-[5px] bg-gray-50 border border-gray-100 flex items-center justify-center text-amber-600">
+                                                    <CheckCircle className="h-5 w-5" />
                                                 </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* Gallery Section */}
-                        <section id="gallery" className="scroll-mt-32">
-                            <div className="bg-white rounded-[5px] p-10 border border-gray-100 shadow-sm">
-                                <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Project Gallery</h2>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {project.gallery?.map((img: string, index: number) => (
-                                        <div key={index} className="relative h-80 rounded-[5px] overflow-hidden group shadow-sm">
-                                            <Image
-                                                src={img}
-                                                alt={`Gallery ${index + 1}`}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* Neighborhood / Attractions */}
-                        <section id="location" className="scroll-mt-32">
-                            <div className="bg-white rounded-[5px] p-10 border border-gray-100 shadow-sm">
-                                <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Location & Connectivity</h2>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                                    <div className="space-y-6">
-                                        {project.attractions?.map((attr: any, idx: number) => (
-                                            <div key={idx} className="flex items-center justify-between p-6 bg-gray-50/50 rounded-[5px] border border-gray-100 group hover:border-primary/20 transition-all">
-                                                <div className="flex items-center gap-5">
-                                                    <div className="h-12 w-12 bg-white rounded-[5px] flex items-center justify-center shadow-sm transition-all">
-                                                        {attr.category === 'Education' && <GraduationCap className="h-6 w-6" />}
-                                                        {attr.category === 'Healthcare' && <HeartPulse className="h-6 w-6" />}
-                                                        {attr.category === 'Shopping' && <Store className="h-6 w-6" />}
-                                                        {(attr.category === 'Entertainment' || attr.category === 'Dining') && <Utensils className="h-6 w-6" />}
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-gray-900 font-bold text-base">{attr.name}</p>
-                                                        <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">{attr.category}</p>
-                                                    </div>
-                                                </div>
-                                                <span className="text-secondary font-bold text-xs px-4 py-2 bg-white rounded-[5px] shadow-sm">{attr.distance}</span>
+                                                <span className="text-gray-900 font-bold text-xs uppercase tracking-wider">{feature}</span>
                                             </div>
                                         ))}
                                     </div>
-                                    <div className="relative aspect-square rounded-[5px] overflow-hidden shadow-sm border border-gray-100 leading-[0]">
-                                        <Image
-                                            src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200&auto=format&fit=crop"
-                                            alt="Location Map Placeholder"
-                                            fill
-                                            className="object-cover"
-                                        />
-                                        <div className="absolute inset-0 bg-primary/20 flex items-center justify-center backdrop-blur-[1px]">
-                                            <div className="bg-white/95 backdrop-blur-xl p-8 rounded-[5px] shadow-sm text-center border border-white/40 max-w-[200px]">
-                                                <MapPin className="h-10 w-10 text-primary mx-auto mb-4 animate-bounce" />
-                                                <p className="text-gray-900 font-bold text-lg mb-1 leading-tight">{project.title}</p>
+                                </div>
+                            </section>
+                        )}
+
+                        {/* Floor Plans Section (Legacy but Improved) */}
+                        {floorPlans.length > 0 && (
+                            <section id="floor-plans" className="scroll-mt-36">
+                                <div className="bg-white rounded-[5px] p-10 shadow-sm border border-gray-100">
+                                    <div className="flex items-center gap-5 mb-8 border-b border-gray-50 pb-6">
+                                        <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Floor Plans</h2>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        {floorPlans.map((plan: any, idx: number) => (
+                                            <div key={idx} className="bg-gray-50/50 rounded-[5px] p-2 border border-gray-100 overflow-hidden group">
+                                                <div className="relative aspect-square rounded-[5px] overflow-hidden bg-white mb-4">
+                                                    <Image
+                                                        src={plan.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=500&auto=format&fit=crop"}
+                                                        alt={plan.title || "Floor Plan"}
+                                                        fill
+                                                        className="object-contain p-8 transition-transform duration-700"
+                                                    />
+                                                </div>
+                                                <div className="px-6 py-4 flex flex-col gap-2">
+                                                    <h3 className="text-lg font-bold text-gray-900 uppercase tracking-tight">{plan.title}</h3>
+                                                    <div className="flex justify-between items-center text-sm">
+                                                        <span className="text-gray-500 font-bold uppercase tracking-widest text-[10px]">Area: {plan.area}</span>
+                                                        <span className="text-primary font-bold">₹ {plan.price}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </section>
+                        )}
+
+                        {/* Gallery Section */}
+                        {gallery.length > 0 && (
+                            <section id="gallery" className="scroll-mt-32">
+                                <div className="bg-white rounded-[5px] p-10 border border-gray-100 shadow-sm">
+                                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Project Gallery</h2>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        {gallery.map((img: string, index: number) => (
+                                            <div key={index} className="relative h-80 rounded-[5px] overflow-hidden group shadow-sm">
+                                                <Image
+                                                    src={img}
+                                                    alt={`Gallery ${index + 1}`}
+                                                    fill
+                                                    className="object-cover"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </section>
+                        )}
+
+                        {/* Neighborhood / Attractions */}
+                        {attractions.length > 0 && (
+                            <section id="location" className="scroll-mt-32">
+                                <div className="bg-white rounded-[5px] p-10 border border-gray-100 shadow-sm">
+                                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Location & Connectivity</h2>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                                        <div className="space-y-6">
+                                            {attractions.map((attr: any, idx: number) => (
+                                                <div key={idx} className="flex items-center justify-between p-6 bg-gray-50/50 rounded-[5px] border border-gray-100 group hover:border-primary/20 transition-all">
+                                                    <div className="flex items-center gap-5">
+                                                        <div className="h-12 w-12 bg-white rounded-[5px] flex items-center justify-center shadow-sm transition-all">
+                                                            {attr.category === 'Education' && <GraduationCap className="h-6 w-6" />}
+                                                            {attr.category === 'Healthcare' && <HeartPulse className="h-6 w-6" />}
+                                                            {attr.category === 'Shopping' && <Store className="h-6 w-6" />}
+                                                            {(attr.category === 'Entertainment' || attr.category === 'Dining' || attr.category === 'Transport' || attr.category === 'Locality') && <Utensils className="h-6 w-6" />}
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-gray-900 font-bold text-base">{attr.name}</p>
+                                                            <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">{attr.category}</p>
+                                                        </div>
+                                                    </div>
+                                                    <span className="text-secondary font-bold text-xs px-4 py-2 bg-white rounded-[5px] shadow-sm">{attr.distance}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div className="relative aspect-square rounded-[5px] overflow-hidden shadow-sm border border-gray-100 leading-[0]">
+                                            <Image
+                                                src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200&auto=format&fit=crop"
+                                                alt="Location Map Placeholder"
+                                                fill
+                                                className="object-cover"
+                                            />
+                                            <div className="absolute inset-0 bg-primary/20 flex items-center justify-center backdrop-blur-[1px]">
+                                                <div className="bg-white/95 backdrop-blur-xl p-8 rounded-[5px] shadow-sm text-center border border-white/40 max-w-[200px]">
+                                                    <MapPin className="h-10 w-10 text-primary mx-auto mb-4 animate-bounce" />
+                                                    <p className="text-gray-900 font-bold text-lg mb-1 leading-tight">{project.title}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </section>
+                            </section>
+                        )}
                     </div>
 
                     <div className="lg:col-span-1">
@@ -370,5 +384,3 @@ export default async function ProjectDetails({
         </main>
     );
 }
-
-const smartphoneIcon = Smartphone;

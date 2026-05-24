@@ -54,12 +54,13 @@ export function FeaturedProjects() {
           return PROJECTS.find(p => p.id === id);
         }).filter(Boolean);
 
-        setFeaturedProjects(orderedFeatured);
+        // On the homepage Featured section, display exactly 4 projects
+        setFeaturedProjects(orderedFeatured.slice(0, 4));
       } catch (err) {
         console.error("Failed to load featured projects:", err);
         // Direct static fallback
         const staticFeatured = FEATURED_IDS.map(id => PROJECTS.find(p => p.id === id)).filter(Boolean);
-        setFeaturedProjects(staticFeatured);
+        setFeaturedProjects(staticFeatured.slice(0, 4));
       } finally {
         setLoading(false);
       }

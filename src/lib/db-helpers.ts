@@ -43,15 +43,25 @@ export interface FirestoreDeveloper {
   createdAt: string;
 }
 
+// Check if credentials exist to avoid Vercel Serverless Gateway Hangups/Timeouts (504)
+function hasDbCredentials(): boolean {
+  if (typeof process === 'undefined') return false;
+  const key = process.env.FIREBASE_PRIVATE_KEY;
+  const email = process.env.FIREBASE_CLIENT_EMAIL;
+  return !!(key && key.trim() !== '' && email && email.trim() !== '');
+}
+
 // Fetch all active projects
 export async function getProjects(): Promise<FirestoreProject[]> {
-  try {
-    const snapshot = await adminDb.collection('projects').where('isActive', '==', true).get();
-    if (!snapshot.empty) {
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as FirestoreProject));
+  if (hasDbCredentials()) {
+    try {
+      const snapshot = await adminDb.collection('projects').where('isActive', '==', true).get();
+      if (!snapshot.empty) {
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as FirestoreProject));
+      }
+    } catch (error) {
+      console.error('Error fetching projects from Firestore, using static fallback:', error);
     }
-  } catch (error) {
-    console.error('Error fetching projects from Firestore, using static fallback:', error);
   }
 
   // Fallback to static PROJECTS
@@ -66,25 +76,29 @@ export async function getProjects(): Promise<FirestoreProject[]> {
 
 // Fetch single project by ID or Slug
 export async function getProjectBySlug(slug: string): Promise<FirestoreProject | null> {
-  try {
-    const docRef = adminDb.collection('projects').doc(slug);
-    const docSnap = await docRef.get();
-    if (docSnap.exists) {
-      return { id: docSnap.id, ...docSnap.data() } as FirestoreProject;
-    }
+  const decodedSlug = decodeURIComponent(slug).trim();
 
-    // Try querying by slug field if ID didn't match
-    const querySnap = await adminDb.collection('projects').where('slug', '==', slug).limit(1).get();
-    if (!querySnap.empty) {
-      const match = querySnap.docs[0];
-      return { id: match.id, ...match.data() } as FirestoreProject;
+  if (hasDbCredentials()) {
+    try {
+      const docRef = adminDb.collection('projects').doc(decodedSlug);
+      const docSnap = await docRef.get();
+      if (docSnap.exists) {
+        return { id: docSnap.id, ...docSnap.data() } as FirestoreProject;
+      }
+
+      // Try querying by slug field if ID didn't match
+      const querySnap = await adminDb.collection('projects').where('slug', '==', decodedSlug).limit(1).get();
+      if (!querySnap.empty) {
+        const match = querySnap.docs[0];
+        return { id: match.id, ...match.data() } as FirestoreProject;
+      }
+    } catch (error) {
+      console.error(`Error fetching project ${decodedSlug} from Firestore, using static fallback:`, error);
     }
-  } catch (error) {
-    console.error(`Error fetching project ${slug} from Firestore, using static fallback:`, error);
   }
 
   // Fallback to static data
-  const fallback = PROJECTS.find(p => p.id === slug);
+  const fallback = PROJECTS.find(p => p.id === decodedSlug || p.id.toLowerCase() === decodedSlug.toLowerCase());
   if (fallback) {
     return {
       ...fallback,
@@ -99,13 +113,15 @@ export async function getProjectBySlug(slug: string): Promise<FirestoreProject |
 
 // Fetch all developers
 export async function getDevelopers(): Promise<FirestoreDeveloper[]> {
-  try {
-    const snapshot = await adminDb.collection('developers').get();
-    if (!snapshot.empty) {
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as FirestoreDeveloper));
+  if (hasDbCredentials()) {
+    try {
+      const snapshot = await adminDb.collection('developers').get();
+      if (!snapshot.empty) {
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as FirestoreDeveloper));
+      }
+    } catch (error) {
+      console.error('Error fetching developers from Firestore, using static fallback:', error);
     }
-  } catch (error) {
-    console.error('Error fetching developers from Firestore, using static fallback:', error);
   }
 
   // Fallback to static DEVELOPERS
@@ -121,24 +137,28 @@ export async function getDevelopers(): Promise<FirestoreDeveloper[]> {
 
 // Fetch single developer by ID or Slug
 export async function getDeveloperBySlug(slug: string): Promise<FirestoreDeveloper | null> {
-  try {
-    const docRef = adminDb.collection('developers').doc(slug);
-    const docSnap = await docRef.get();
-    if (docSnap.exists) {
-      return { id: docSnap.id, ...docSnap.data() } as FirestoreDeveloper;
-    }
+  const decodedSlug = decodeURIComponent(slug).trim();
 
-    const querySnap = await adminDb.collection('developers').where('slug', '==', slug).limit(1).get();
-    if (!querySnap.empty) {
-      const match = querySnap.docs[0];
-      return { id: match.id, ...match.data() } as FirestoreDeveloper;
+  if (hasDbCredentials()) {
+    try {
+      const docRef = adminDb.collection('developers').doc(decodedSlug);
+      const docSnap = await docRef.get();
+      if (docSnap.exists) {
+        return { id: docSnap.id, ...docSnap.data() } as FirestoreDeveloper;
+      }
+
+      const querySnap = await adminDb.collection('developers').where('slug', '==', decodedSlug).limit(1).get();
+      if (!querySnap.empty) {
+        const match = querySnap.docs[0];
+        return { id: match.id, ...match.data() } as FirestoreDeveloper;
+      }
+    } catch (error) {
+      console.error(`Error fetching developer ${decodedSlug} from Firestore, using static fallback:`, error);
     }
-  } catch (error) {
-    console.error(`Error fetching developer ${slug} from Firestore, using static fallback:`, error);
   }
 
   // Fallback to static developer
-  const fallback = DEVELOPERS.find(d => d.id === slug);
+  const fallback = DEVELOPERS.find(d => d.id === decodedSlug || d.id.toLowerCase() === decodedSlug.toLowerCase());
   if (fallback) {
     return {
       ...fallback,
