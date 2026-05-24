@@ -1122,14 +1122,17 @@ export const PROJECTS = [
         landArea: "High Rise Tower (G+27 Floors)",
         units: "Premium Community",
         towers: "2 Basement + Ground + 27 Floors",
-        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1000&auto=format&fit=crop",
+        image: "/projects/prism-city-blue/prism-city-blue-view-side.jpg",
         description: "Prismcity Blue (Diamond Prism City Blue) represents the pinnacle of modern architecture and thoughtful design in Charholi, Pune. Known as 'Codename Playnest', it offers an active lifestyle with world-class sports facilities, luxury amenities like a rooftop garden and swimming pool with jacuzzi, all within a Vastu-compliant high-rise setting.",
         tags: ["Charholi Peak", "Rooftop Garden", "Playnest"],
         features: ["Swimming Pool with Jacuzzi", "Gymnasium", "Clubhouse", "24/7 Security (CCTV)", "Rooftop Garden", "Kids Play Area", "Multipurpose Court"],
         gallery: [
-            "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1000&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1000&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1000&auto=format&fit=crop"
+            "/projects/prism-city-blue/prism-city-blue-gallery-1.jpg",
+            "/projects/prism-city-blue/prism-city-blue-gallery-2.jpg",
+            "/projects/prism-city-blue/prism-city-blue-gallery-3.jpg",
+            "/projects/prism-city-blue/prism-city-blue-gallery-4.jpg",
+            "/projects/prism-city-blue/prism-city-blue-gallery-5.jpg",
+            "/projects/prism-city-blue/prism-city-blue-gallery-6.jpg"
         ],
         configurations: [
             { type: "2 BHK", area: "695 - 740 Sq.Ft", price: "59.62 L - 63.46 L*" },
@@ -1141,13 +1144,13 @@ export const PROJECTS = [
                 title: "Premium 2 BHK", 
                 area: "740 Sq.Ft", 
                 price: "63.46 Lacs", 
-                image: "https://images.unsplash.com/photo-1556912173-3bb406ef7e77?q=80&w=800&auto=format&fit=crop" 
+                image: "/projects/prism-city-blue/prism-city-blue-about.jpg" 
             },
             { 
                 title: "Spacious 4 BHK", 
                 area: "1375 Sq.Ft", 
                 price: "1.18 Cr", 
-                image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop" 
+                image: "/projects/prism-city-blue/prism-city-blue-view-side.jpg" 
             }
         ],
         attractions: [
@@ -1171,13 +1174,14 @@ export const PROJECTS = [
         landArea: "2.5 Acres",
         units: "85 Units",
         towers: "1 Tower / 14 Floors",
-        image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1000&auto=format&fit=crop",
+        image: "/projects/santiago-skymont/hero.png",
         description: "Discover the height of luxury at Santiago Skymont in Baner. These ultra-premium 3 & 4 BHK homes are designed for the discerning few, offering unparalleled views and world-class amenities. With a rooftop infinity pool, private gardens, and state-of-the-art smart home technology, Skymont sets a new standard for sophisticated urban living.",
         tags: ["Premium", "Hill View"],
         features: ["Rooftop Infinity Pool", "Private Garden", "Smart Home Tech", "Mini Theater", "Concierge Desk"],
         gallery: [
-            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1000&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000&auto=format&fit=crop"
+            "/projects/santiago-skymont/gallery_1.png",
+            "/projects/santiago-skymont/gallery_2.png",
+            "/projects/santiago-skymont/about_us.png"
         ],
         configurations: [
             { type: "3 BHK", area: "1250 - 1450 Sq.Ft", price: "1.85 Cr*" },
@@ -1188,13 +1192,13 @@ export const PROJECTS = [
                 title: "3 BHK Grande", 
                 area: "1350 Sq.Ft", 
                 price: "2.10 Cr", 
-                image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop" 
+                image: "/projects/santiago-skymont/floor_plan_3bhk_new.jpg" 
             },
             { 
                 title: "4 BHK Penthouse", 
                 area: "2050 Sq.Ft", 
                 price: "3.50 Cr", 
-                image: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=800&auto=format&fit=crop" 
+                image: "/projects/santiago-skymont/floor_plan_2bhk_new.jpg" 
             }
         ],
         attractions: [
@@ -3346,12 +3350,26 @@ export const PROJECTS = [
         landArea: "2 Acres",
         units: "120 Units",
         towers: "2 Towers",
-        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1000&auto=format&fit=crop",
+        image: "/projects/the-forestia-chikhli/Untitled-4.jpeg",
         description: "The Forestia Chikhli offers premium 2 & 3 BHK homes in Pune with modern amenities, green living & excellent connectivity. The project is crafted to provide a peaceful living experience with modern comforts and open spaces.",
         features: ["Gymnasium", "Swimming Pool", "Clubhouse", "24/7 Security (CCTV)", "Rooftop Garden", "Kids Play Area", "Multipurpose Court"],
+        gallery: [
+            "/projects/the-forestia-chikhli/Untitled-5.jpeg",
+            "/projects/the-forestia-chikhli/Untitled-6.jpeg",
+            "/projects/the-forestia-chikhli/Untitled-7.jpeg",
+            "/projects/the-forestia-chikhli/Untitled-8.jpeg",
+            "/projects/the-forestia-chikhli/Untitled-9.jpeg",
+            "/projects/the-forestia-chikhli/Untitled-10.jpeg",
+            "/projects/the-forestia-chikhli/Untitled-11.jpeg",
+            "/projects/the-forestia-chikhli/Untitled-12.jpeg"
+        ],
         configurations: [
             { type: "2 BHK", area: "744 Sq.Ft", price: "63 Lakh" },
             { type: "3 BHK", area: "766 - 908 Sq.Ft", price: "On Request" }
+        ],
+        floorPlans: [
+            { title: "2 BHK Layout", area: "744 Sq.Ft", price: "63 Lacs", image: "/projects/the-forestia-chikhli/2bhk.png" },
+            { title: "3 BHK Layout", area: "908 Sq.Ft", price: "On Request", image: "/projects/the-forestia-chikhli/3bhk.png" }
         ]
     },
     {
@@ -3368,12 +3386,28 @@ export const PROJECTS = [
         landArea: "6.5 Acres",
         units: "Premium Residences",
         towers: "High Rise Towers",
-        image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1000&auto=format&fit=crop",
+        image: "/projects/topaz-towers-charholi/img/hero.jpg",
         description: "Discover Topaz Towers in Charholi Budruk by Aakar Realties. Premium 2 & 3 BHK residential and commercial spaces starting at ₹65 Lakhs. Spread across 6.5 acres with modern amenities and scenic surroundings.",
         features: ["Gymnasium", "Swimming Pool", "Clubhouse", "24/7 Security", "Kids Play Area", "Garden"],
+        gallery: [
+            "/projects/topaz-towers-charholi/img/gal1.jpg",
+            "/projects/topaz-towers-charholi/img/gal2.jpg",
+            "/projects/topaz-towers-charholi/img/gal3.jpg",
+            "/projects/topaz-towers-charholi/img/gal4.jpg",
+            "/projects/topaz-towers-charholi/img/gal5.jpg",
+            "/projects/topaz-towers-charholi/img/gal6.jpg",
+            "/projects/topaz-towers-charholi/img/gal7.jpg",
+            "/projects/topaz-towers-charholi/img/gal8.jpg",
+            "/projects/topaz-towers-charholi/img/gal9.jpg",
+            "/projects/topaz-towers-charholi/img/gal10.jpg"
+        ],
         configurations: [
             { type: "2 BHK", area: "702 - 789 Sq.Ft", price: "65 Lakh" },
             { type: "3 BHK", area: "947 - 990 Sq.Ft", price: "79 Lakh" }
+        ],
+        floorPlans: [
+            { title: "2 BHK Plan", area: "702 Sq.Ft", price: "65 Lacs", image: "/projects/topaz-towers-charholi/img/fp2.jpg" },
+            { title: "3 BHK Plan", area: "947 Sq.Ft", price: "79 Lacs", image: "/projects/topaz-towers-charholi/img/fp3.jpg" }
         ]
     },
     {
@@ -3390,13 +3424,23 @@ export const PROJECTS = [
         landArea: "3 Acres",
         units: "Tallest Tower",
         towers: "High Rise",
-        image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1000&auto=format&fit=crop",
+        image: "/projects/sankalp-sierra-charholi/sankalp-sierra-elevation.jpeg",
         description: "Sankalp Sierra by Sankalp Group Charholi offers premium flats for sale in Wadmukhwadi. Tallest tower with 30+ amenities, spacious balconies, and beautiful landscapes.",
         features: ["Gymnasium", "Swimming Pool", "Clubhouse", "24/7 Security", "30+ Modern Amenities", "Kids Play Area"],
+        gallery: [
+            "/projects/sankalp-sierra-charholi/sankalp-sierra-architecture.jpeg",
+            "/projects/sankalp-sierra-charholi/sankalp-sierra-bedroom.jpeg",
+            "/projects/sankalp-sierra-charholi/sankalp-sierra-interiors.jpeg",
+            "/projects/sankalp-sierra-charholi/sankalp-sierra-living-room.jpeg",
+            "/projects/sankalp-sierra-charholi/sankalp-sierra-amenities-view.jpeg"
+        ],
         configurations: [
             { type: "2 BHK", area: "700 - 850 Sq.Ft", price: "75 Lac" },
             { type: "3 BHK", area: "950 - 1100 Sq.Ft", price: "On Request" },
             { type: "4 BHK", area: "1300 - 1450 Sq.Ft", price: "On Request" }
+        ],
+        floorPlans: [
+            { title: "2 BHK Elevation View", area: "700 Sq.Ft", price: "75 Lacs", image: "/projects/sankalp-sierra-charholi/sankalp-sierra-elevation.jpeg" }
         ]
     },
     {
@@ -3413,7 +3457,7 @@ export const PROJECTS = [
         landArea: "2.5 Acres",
         units: "Modern Community",
         towers: "Premium Layout",
-        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1000&auto=format&fit=crop",
+        image: "/projects/prism-city-blue/prism-city-blue-view-side.jpg", // Safe real layout fallback
         description: "Kamalraj Indradhanu by Kamalraj Group Pune offers premium 2 & 3 BHK residential apartments. Equipped with all modern amenities for a comfortable, quality lifestyle.",
         features: ["Gymnasium", "Swimming Pool", "Clubhouse", "24/7 Security", "Kids Play Area"],
         configurations: [
@@ -3435,12 +3479,19 @@ export const PROJECTS = [
         landArea: "4.5 Acres",
         units: "Premium Residences",
         towers: "MIVAN Construction",
-        image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1000&auto=format&fit=crop",
+        image: "/projects/shaligram-greenstone-charholi/project_banner_green_stone.png",
         description: "Discover Shaligram Greenstone by Shaligram Buildcon in Charholi. Premium 2 & 3 BHK luxury residences with 45+ world-class amenities and MIVAN construction.",
         features: ["MIVAN Construction", "Gymnasium", "Swimming Pool", "Clubhouse", "45+ Amenities", "Kids Play Area"],
+        gallery: [
+            "/projects/shaligram-greenstone-charholi/luxury_hero_v2.png",
+            "/projects/shaligram-greenstone-charholi/luxury_hero_v3.png"
+        ],
         configurations: [
             { type: "2 BHK", area: "850 Sq.Ft", price: "1.01 Cr" },
             { type: "3 BHK", area: "1150 Sq.Ft", price: "1.05 Cr" }
+        ],
+        floorPlans: [
+            { title: "2 BHK Greenstone Plan", area: "850 Sq.Ft", price: "1.01 Cr", image: "/projects/shaligram-greenstone-charholi/project_banner_green_stone.png" }
         ]
     },
     {
@@ -3457,9 +3508,24 @@ export const PROJECTS = [
         landArea: "10.25 Acres",
         units: "Bungalows & Apartments",
         towers: "70+ Amenities",
-        image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1000&auto=format&fit=crop",
+        image: "/projects/shakuntal-alentia-charholi/WhatsApp Image 2026-05-17 at 12.59.13 PM (1).jpeg",
         description: "Discover Shakuntal Alentia in Charholi, Pune. Ultra-premium 2, 3 & 4 BHK luxury residences & bungalow homes spread across 10.25 acres with 70+ amenities.",
         features: ["70+ Amenities", "Bungalow Layout", "Gymnasium", "Swimming Pool", "Clubhouse", "Kids Play Area"],
+        gallery: [
+            "/projects/shakuntal-alentia-charholi/WhatsApp Image 2026-05-17 at 12.59.13 PM.jpeg",
+            "/projects/shakuntal-alentia-charholi/WhatsApp Image 2026-05-17 at 12.59.14 PM (1).jpeg",
+            "/projects/shakuntal-alentia-charholi/WhatsApp Image 2026-05-17 at 12.59.14 PM (2).jpeg",
+            "/projects/shakuntal-alentia-charholi/WhatsApp Image 2026-05-17 at 12.59.14 PM.jpeg",
+            "/projects/shakuntal-alentia-charholi/WhatsApp Image 2026-05-17 at 12.59.15 PM (1).jpeg",
+            "/projects/shakuntal-alentia-charholi/WhatsApp Image 2026-05-17 at 12.59.15 PM (2).jpeg",
+            "/projects/shakuntal-alentia-charholi/WhatsApp Image 2026-05-17 at 12.59.15 PM (3).jpeg",
+            "/projects/shakuntal-alentia-charholi/WhatsApp Image 2026-05-17 at 12.59.15 PM.jpeg",
+            "/projects/shakuntal-alentia-charholi/WhatsApp Image 2026-05-17 at 12.59.16 PM (1).jpeg",
+            "/projects/shakuntal-alentia-charholi/WhatsApp Image 2026-05-17 at 12.59.16 PM (2).jpeg",
+            "/projects/shakuntal-alentia-charholi/WhatsApp Image 2026-05-17 at 12.59.16 PM.jpeg",
+            "/projects/shakuntal-alentia-charholi/WhatsApp Image 2026-05-17 at 12.59.17 PM (1).jpeg",
+            "/projects/shakuntal-alentia-charholi/WhatsApp Image 2026-05-17 at 12.59.17 PM.jpeg"
+        ],
         configurations: [
             { type: "2 BHK", area: "667 Sq.Ft", price: "55 Lac" },
             { type: "3 BHK", area: "773 Sq.Ft", price: "70 Lac" },
@@ -3480,9 +3546,20 @@ export const PROJECTS = [
         landArea: "3 Acres",
         units: "Butterfly Layout Concept",
         towers: "Premium Balconies",
-        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1000&auto=format&fit=crop",
+        image: "/projects/sankalp-torezza-ravet/hero_red.jpeg",
         description: "Discover Codename Sankalp Ravet (Sankalp Torezza). Premium 2 & 3 BHK apartments with butterfly layout concept, large balconies, & world-class amenities.",
         features: ["Butterfly Layout Concept", "Large Balconies", "Gymnasium", "Swimming Pool", "Clubhouse", "Kids Play Area"],
+        gallery: [
+            "/projects/sankalp-torezza-ravet/img_1.jpeg",
+            "/projects/sankalp-torezza-ravet/img_2.jpeg",
+            "/projects/sankalp-torezza-ravet/img_3.jpeg",
+            "/projects/sankalp-torezza-ravet/img_4.jpeg",
+            "/projects/sankalp-torezza-ravet/img_5.jpeg",
+            "/projects/sankalp-torezza-ravet/img_6.jpeg",
+            "/projects/sankalp-torezza-ravet/img_7.jpeg",
+            "/projects/sankalp-torezza-ravet/img_8.jpeg",
+            "/projects/sankalp-torezza-ravet/img_9.jpeg"
+        ],
         configurations: [
             { type: "2 BHK", area: "765 Sq.Ft", price: "82 Lakh" },
             { type: "3 BHK", area: "1179 Sq.Ft", price: "On Request" }
@@ -3502,9 +3579,34 @@ export const PROJECTS = [
         landArea: "29-Floor Landmark",
         units: "Premium Dighi-Alandi Road",
         towers: "29 Floors",
-        image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1000&auto=format&fit=crop",
+        image: "/projects/sai-ananta-charholi/IMG-20260513-WA0002.jpg",
         description: "Discover Sai Ananta, a premium 29-floor residential landmark in Wadmukhwadi, Dighi-Alandi Road, Pune. Offering luxury 2 & 3 BHK homes with 30+ world-class amenities.",
         features: ["29 Floors Height", "30+ Modern Amenities", "Gymnasium", "Swimming Pool", "Clubhouse", "Kids Play Area"],
+        gallery: [
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0003.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0004.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0005.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0006.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0007.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0008.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0009.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0010.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0011.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0012.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0013.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0014.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0015.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0016.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0017.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0018.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0019.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0020.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0021.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0022.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0023.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0024.jpg",
+            "/projects/sai-ananta-charholi/IMG-20260513-WA0025.jpg"
+        ],
         configurations: [
             { type: "2 BHK", area: "700 - 850 Sq.Ft", price: "Price on Request" },
             { type: "3 BHK", area: "950 - 1150 Sq.Ft", price: "Price on Request" }
