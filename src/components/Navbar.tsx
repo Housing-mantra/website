@@ -132,6 +132,9 @@ export function Navbar() {
                             </div>
                         </div>
                     </Link>
+                    
+                    {/* Vertical Divider */}
+                    <div className="hidden md:block h-6 w-px bg-gray-200 self-center" />
 
                     {/* Desktop Location Dropdown */}
                     <div className="hidden md:block relative">
