@@ -15,7 +15,7 @@ function getAdminApp() {
 
   const projectId = process.env.FIREBASE_PROJECT_ID || 'housing-mantra-9d7e8';
   const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-  const privateKey = process.env.FIREBASE_PRIVATE_KEY;
+  let privateKey = process.env.FIREBASE_PRIVATE_KEY;
 
   if (!privateKey || !clientEmail) {
     console.warn("WARNING: Firebase Admin credentials not fully loaded in environment variables. Initializing fallback client.");
@@ -23,10 +23,25 @@ function getAdminApp() {
     return adminApp;
   }
 
+  // Robustly clean private key for Vercel / serverless deployments
+  privateKey = privateKey.trim();
+  
+  // 1. Strip surrounding double or single quotes added by dashboard copy-pasting
+  if (privateKey.startsWith('"') && privateKey.endsWith('"')) {
+    privateKey = privateKey.substring(1, privateKey.length - 1);
+  }
+  if (privateKey.startsWith("'") && privateKey.endsWith("'")) {
+    privateKey = privateKey.substring(1, privateKey.length - 1);
+  }
+
+  // 2. Normalize and replace literal escaped newlines with actual newline characters
+  privateKey = privateKey.replace(/\\n/g, '\n');
+  privateKey = privateKey.replace(/\\\\n/g, '\n');
+
   const serviceAccount: ServiceAccount = {
     projectId,
     clientEmail,
-    privateKey: privateKey.replace(/\\n/g, '\n'),
+    privateKey,
   };
 
   adminApp = initializeApp({ credential: cert(serviceAccount) });
