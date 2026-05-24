@@ -1,4 +1,5 @@
 import { adminDb } from './firebase-admin';
+import { PROJECTS, DEVELOPERS } from './data';
 
 export interface FirestoreProject {
   id: string;
@@ -20,7 +21,7 @@ export interface FirestoreProject {
   features: string[];
   developerId: string;
   floorPlans: any[];
-  attractions: string[];
+  attractions: any[];
   isActive: boolean;
   createdAt: string;
 }
@@ -46,11 +47,21 @@ export interface FirestoreDeveloper {
 export async function getProjects(): Promise<FirestoreProject[]> {
   try {
     const snapshot = await adminDb.collection('projects').where('isActive', '==', true).get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as FirestoreProject));
+    if (!snapshot.empty) {
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as FirestoreProject));
+    }
   } catch (error) {
-    console.error('Error fetching projects from Firestore:', error);
-    return [];
+    console.error('Error fetching projects from Firestore, using static fallback:', error);
   }
+
+  // Fallback to static PROJECTS
+  return PROJECTS.map(p => ({
+    ...p,
+    slug: p.id,
+    city: 'Pune',
+    isActive: true,
+    createdAt: new Date().toISOString(),
+  } as any));
 }
 
 // Fetch single project by ID or Slug
@@ -68,23 +79,44 @@ export async function getProjectBySlug(slug: string): Promise<FirestoreProject |
       const match = querySnap.docs[0];
       return { id: match.id, ...match.data() } as FirestoreProject;
     }
-
-    return null;
   } catch (error) {
-    console.error(`Error fetching project ${slug} from Firestore:`, error);
-    return null;
+    console.error(`Error fetching project ${slug} from Firestore, using static fallback:`, error);
   }
+
+  // Fallback to static data
+  const fallback = PROJECTS.find(p => p.id === slug);
+  if (fallback) {
+    return {
+      ...fallback,
+      slug: fallback.id,
+      city: 'Pune',
+      isActive: true,
+      createdAt: new Date().toISOString(),
+    } as any;
+  }
+  return null;
 }
 
 // Fetch all developers
 export async function getDevelopers(): Promise<FirestoreDeveloper[]> {
   try {
     const snapshot = await adminDb.collection('developers').get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as FirestoreDeveloper));
+    if (!snapshot.empty) {
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as FirestoreDeveloper));
+    }
   } catch (error) {
-    console.error('Error fetching developers from Firestore:', error);
-    return [];
+    console.error('Error fetching developers from Firestore, using static fallback:', error);
   }
+
+  // Fallback to static DEVELOPERS
+  return DEVELOPERS.map(d => ({
+    ...d,
+    slug: d.id,
+    description: d.description || d.about,
+    established: d.experience ? 2026 - (parseInt(d.experience) || 10) : 2010,
+    projectsCount: d.projectsCount ? parseInt(d.projectsCount.replace(/[^0-9]/g, '')) || 0 : 0,
+    createdAt: new Date().toISOString(),
+  } as any));
 }
 
 // Fetch single developer by ID or Slug
@@ -101,10 +133,21 @@ export async function getDeveloperBySlug(slug: string): Promise<FirestoreDevelop
       const match = querySnap.docs[0];
       return { id: match.id, ...match.data() } as FirestoreDeveloper;
     }
-
-    return null;
   } catch (error) {
-    console.error(`Error fetching developer ${slug} from Firestore:`, error);
-    return null;
+    console.error(`Error fetching developer ${slug} from Firestore, using static fallback:`, error);
   }
+
+  // Fallback to static developer
+  const fallback = DEVELOPERS.find(d => d.id === slug);
+  if (fallback) {
+    return {
+      ...fallback,
+      slug: fallback.id,
+      description: fallback.description || fallback.about,
+      established: fallback.experience ? 2026 - (parseInt(fallback.experience) || 10) : 2010,
+      projectsCount: fallback.projectsCount ? parseInt(fallback.projectsCount.replace(/[^0-9]/g, '')) || 0 : 0,
+      createdAt: new Date().toISOString(),
+    } as any;
+  }
+  return null;
 }

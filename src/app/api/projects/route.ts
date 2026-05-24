@@ -1,17 +1,14 @@
 import { NextResponse } from 'next/server';
-import { adminDb } from '@/lib/firebase-admin';
+import { getProjects, getDevelopers } from '@/lib/db-helpers';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const [projectsSnap, developersSnap] = await Promise.all([
-      adminDb.collection('projects').where('isActive', '==', true).get(),
-      adminDb.collection('developers').get(),
+    const [projects, developers] = await Promise.all([
+      getProjects(),
+      getDevelopers(),
     ]);
-
-    const projects = projectsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    const developers = developersSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
     return NextResponse.json({
       success: true,
