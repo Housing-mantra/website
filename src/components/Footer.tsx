@@ -18,14 +18,14 @@ export function Footer() {
                             </svg>
                             
                             {/* Brand Text Column */}
-                            <div className="flex flex-col items-start leading-none gap-1 w-[184px]">
-                                <div className="relative w-full flex items-start">
-                                    <span className="text-[22px] font-oswald font-black text-white tracking-tight leading-none">
+                            <div className="flex flex-col items-stretch w-fit leading-none gap-1">
+                                <div className="relative">
+                                    <span className="text-[22px] font-oswald font-black text-white tracking-tight leading-none whitespace-nowrap">
                                         HOUSING MANTRA
                                     </span>
-                                    <span className="text-[7px] font-sans font-extrabold text-white select-none ml-0.5 absolute -right-3 top-0">TM</span>
+                                    <span className="text-[7px] font-sans font-extrabold text-white select-none absolute -right-3.5 top-0">TM</span>
                                 </div>
-                                <div className="w-full bg-white text-gray-900 text-[7.5px] font-sans font-black uppercase tracking-[0.04em] py-0.5 rounded-[1px] text-center">
+                                <div className="w-full bg-white text-gray-900 text-[7.5px] font-sans font-black uppercase tracking-[0.04em] py-0.5 rounded-[1px] text-center whitespace-nowrap">
                                     Everything About Real-Estate
                                 </div>
                             </div>
