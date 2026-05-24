@@ -5,8 +5,8 @@ export async function POST() {
   response.cookies.delete('auth_token');
   return response;
 }
-export async function GET() {
-  const response = NextResponse.redirect(new URL('/', 'http://localhost:3000'));
+export async function GET(req: Request) {
+  const response = NextResponse.redirect(new URL('/', req.url));
   response.cookies.delete('auth_token');
   return response;
 }
