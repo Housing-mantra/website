@@ -110,7 +110,7 @@ export function Navbar() {
         >
             <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
                 <div className="flex items-center gap-6">
-                    <Link href="/" className="flex items-center gap-3 select-none" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link href="/" className="flex items-center gap-1.5 select-none" onClick={() => setIsMobileMenuOpen(false)}>
                         {/* Beautiful sharp icon */}
                         <svg className="h-10 w-10 shrink-0" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="40" cy="40" r="36" fill="none" stroke="#111827" strokeWidth="2.5" />

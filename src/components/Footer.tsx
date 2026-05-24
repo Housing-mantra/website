@@ -8,7 +8,7 @@ export function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                     {/* Brand Column */}
                     <div>
-                        <div className="mb-6 flex items-center gap-3 select-none">
+                        <div className="mb-6 flex items-center gap-1.5 select-none">
                             {/* Beautiful sharp icon */}
                             <svg className="h-10 w-10 shrink-0" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="40" cy="40" r="36" fill="none" stroke="#ffffff" strokeWidth="2.5" />
