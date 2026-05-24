@@ -42,7 +42,7 @@ export function Navbar() {
         fetchUser();
     }, []);
 
-    const isTransparent = pathname === "/" && !isScrolled && !isMobileMenuOpen;
+    const isTransparent = false;
 
     useEffect(() => {
         const handleScroll = () => {
