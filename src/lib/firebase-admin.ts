@@ -34,6 +34,20 @@ function getAdminApp() {
 
   privateKey = cleanedKey;
 
+  // Extremely intelligent diagnostics to help user fix production key issues instantly
+  if (!privateKey.startsWith('-----BEGIN PRIVATE KEY-----') || !privateKey.endsWith('-----END PRIVATE KEY-----')) {
+    const startStr = privateKey.substring(0, 30).replace(/\n/g, '\\n');
+    const endStr = privateKey.substring(Math.max(0, privateKey.length - 30)).replace(/\n/g, '\\n');
+    const diagnosticMsg = `FIREBASE_PRIVATE_KEY is malformed in production! ` +
+      `Length: ${privateKey.length}. ` +
+      `Starts with: "${startStr}...". ` +
+      `Ends with: "...${endStr}". ` +
+      `Key must start with "-----BEGIN PRIVATE KEY-----" and end with "-----END PRIVATE KEY-----" (including 5 dashes). ` +
+      `Please verify your Vercel Environment Variables and copy-paste the private key completely.`;
+    console.error(diagnosticMsg);
+    throw new Error(diagnosticMsg);
+  }
+
   const serviceAccount: ServiceAccount = {
     projectId,
     clientEmail,
