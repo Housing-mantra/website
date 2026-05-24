@@ -70,35 +70,35 @@ export default function BookmarksPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gray-50 pt-20">
+      <main className="min-h-screen bg-gray-50 pt-20 font-sans">
         <div className="container mx-auto px-4 py-12 max-w-5xl">
           <div className="flex items-center gap-4 mb-10">
-            <Link href="/" className="text-gray-400 hover:text-gray-600 transition-colors">
+            <Link href="/" className="text-gray-400 hover:text-primary transition-colors">
               <ArrowLeft className="h-5 w-5" />
             </Link>
             <div>
-              <h1 className="text-3xl font-extrabold text-gray-900 flex items-center gap-3">
-                <Bookmark className="h-7 w-7 text-amber-500 fill-amber-500/20" />
+              <h1 className="text-3xl font-black text-gray-900 flex items-center gap-3">
+                <Bookmark className="h-7 w-7 text-primary fill-primary/10" />
                 My Bookmarks
               </h1>
-              <p className="text-gray-500 mt-1 text-sm">Properties you saved for later</p>
+              <p className="text-gray-500 mt-1 text-sm font-medium">Properties you saved for later</p>
             </div>
           </div>
 
           {loading && (
             <div className="flex justify-center py-20">
-              <Loader2 className="h-8 w-8 animate-spin text-amber-500" />
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
           )}
 
           {!loading && !isLoggedIn && (
-            <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
+            <div className="text-center py-20 bg-white rounded-[5px] border border-gray-100 p-8 shadow-sm">
               <Bookmark className="h-16 w-16 text-gray-200 mx-auto mb-4" />
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Login to View Bookmarks</h2>
-              <p className="text-gray-500 mb-6 text-sm">Sign in to save and access your favourite properties.</p>
+              <h2 className="text-xl font-black text-gray-900 mb-2">Login to View Bookmarks</h2>
+              <p className="text-gray-500 mb-6 text-sm font-medium">Sign in to save and access your favourite properties.</p>
               <Link
                 href="/login"
-                className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm px-6 py-3 rounded-xl transition-all"
+                className="inline-flex items-center gap-2 bg-primary hover:bg-primary/95 text-white font-bold text-sm px-6 py-3.5 rounded-[5px] shadow-md shadow-primary/10 active:scale-[0.98] transition-all"
               >
                 Sign In
               </Link>
@@ -106,13 +106,13 @@ export default function BookmarksPage() {
           )}
 
           {!loading && isLoggedIn && bookmarks.length === 0 && (
-            <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
+            <div className="text-center py-20 bg-white rounded-[5px] border border-gray-100 p-8 shadow-sm">
               <Bookmark className="h-16 w-16 text-gray-200 mx-auto mb-4" />
-              <h2 className="text-xl font-bold text-gray-900 mb-2">No Bookmarks Yet</h2>
-              <p className="text-gray-500 mb-6 text-sm">Explore projects and click the bookmark icon to save them here.</p>
+              <h2 className="text-xl font-black text-gray-900 mb-2">No Bookmarks Yet</h2>
+              <p className="text-gray-500 mb-6 text-sm font-medium">Explore projects and click the bookmark icon to save them here.</p>
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm px-6 py-3 rounded-xl transition-all"
+                className="inline-flex items-center gap-2 bg-primary hover:bg-primary/95 text-white font-bold text-sm px-6 py-3.5 rounded-[5px] shadow-md shadow-primary/10 active:scale-[0.98] transition-all"
               >
                 Explore Projects
               </Link>
@@ -124,7 +124,7 @@ export default function BookmarksPage() {
               {bookmarks.map((b) => (
                 <div
                   key={b.id}
-                  className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all overflow-hidden group"
+                  className="bg-white rounded-[5px] border border-gray-100 shadow-sm hover:shadow-md transition-all overflow-hidden group"
                 >
                   <div className="relative h-48 overflow-hidden">
                     <img
@@ -135,26 +135,26 @@ export default function BookmarksPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                     <button
                       onClick={() => removeBookmark(b.project.id)}
-                      className="absolute top-3 right-3 bg-white/90 hover:bg-red-50 text-red-500 p-2 rounded-full transition-colors shadow-sm"
+                      className="absolute top-3 right-3 bg-white/90 hover:bg-red-50 text-red-500 p-2 rounded-[5px] transition-colors shadow-sm"
                       title="Remove bookmark"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
-                    <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-amber-600 text-white text-[9px] font-bold rounded uppercase tracking-widest">
+                    <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-primary text-white text-[9px] font-extrabold rounded-[3px] uppercase tracking-widest">
                       {b.project.status}
                     </span>
                   </div>
 
                   <div className="p-5">
-                    <h3 className="font-bold text-gray-900 text-base mb-1 line-clamp-1">{b.project.title}</h3>
-                    <p className="text-gray-500 text-xs mb-3">{b.project.location}</p>
+                    <h3 className="font-bold text-gray-900 text-base mb-1 line-clamp-1 group-hover:text-primary transition-colors">{b.project.title}</h3>
+                    <p className="text-gray-500 text-xs mb-3 font-medium">{b.project.location}</p>
                     <div className="flex items-center justify-between">
-                      <span className="text-amber-600 font-extrabold text-sm">{b.project.price}</span>
+                      <span className="text-primary font-black text-sm">{b.project.price}</span>
                       <Link
                         href={`/projects/${b.project.id}`}
-                        className="text-xs font-bold text-primary hover:underline"
+                        className="text-xs font-bold text-secondary bg-primary hover:bg-primary/95 px-3 py-1.5 rounded-[3px] transition-colors"
                       >
-                        View Details →
+                        View Details
                       </Link>
                     </div>
                   </div>

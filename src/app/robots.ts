@@ -8,7 +8,14 @@ export default function robots(): MetadataRoute.Robots {
         rules: {
             userAgent: '*',
             allow: '/',
-            disallow: '/private/',
+            disallow: [
+                '/admin',
+                '/admin/*',
+                '/bookmarks',
+                '/history',
+                '/api/*',
+                '/private/'
+            ],
         },
         sitemap: 'https://housingmantra.in/sitemap.xml',
     };
