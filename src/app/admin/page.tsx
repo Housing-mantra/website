@@ -43,6 +43,8 @@ export default async function AdminPage() {
     developer: devMap.get(p.developerId) || null,
   }));
 
+  const developers = developersSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
   const users = usersSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   const leads = leadsSnap.docs.map(doc => {
     const data = doc.data();
@@ -68,6 +70,7 @@ export default async function AdminPage() {
     <AdminDashboardClient
       stats={stats}
       projects={projectsWithDev}
+      developers={developers}
       users={users}
       leads={leadsWithProjects}
       currentUser={currentUser}

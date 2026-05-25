@@ -113,15 +113,15 @@ export default async function ProjectDetails({
                     <div className="container mx-auto px-4">
                         <div className="max-w-4xl">
                             <nav className="flex items-center gap-2 text-white/80 text-[11px] font-bold uppercase tracking-widest mb-6">
-                                <Link href="/" className="hover:text-amber-400 transition-colors">Home</Link>
+                                <Link href="/" className="hover:text-secondary transition-colors">Home</Link>
                                 <span>/</span>
-                                <Link href="/projects" className="hover:text-amber-400 transition-colors">Pune Projects</Link>
+                                <Link href="/projects" className="hover:text-secondary transition-colors">Pune Projects</Link>
                                 <span>/</span>
                                 <span className="text-white">{project.title || "Details"}</span>
                             </nav>
 
                             <div className="flex flex-wrap items-center gap-3 mb-6">
-                                <span className="px-4 py-1.5 bg-amber-600 text-white text-[10px] font-bold rounded-[5px] tracking-widest uppercase shadow-sm">
+                                <span className="px-4 py-1.5 bg-primary text-white text-[10px] font-bold rounded-[5px] tracking-widest uppercase shadow-sm">
                                     {project.status || "Ongoing"}
                                 </span>
                                 <span className="px-4 py-1.5 bg-white/10 backdrop-blur-md text-white text-[10px] font-bold rounded-[5px] tracking-widest uppercase border border-white/20">
@@ -135,13 +135,13 @@ export default async function ProjectDetails({
                             
                             <div className="flex flex-wrap items-center gap-8">
                                 <div className="flex items-center gap-2 text-white/90">
-                                    <MapPin className="h-5 w-5 text-amber-500" />
+                                    <MapPin className="h-5 w-5 text-secondary" />
                                     <span className="text-lg font-bold">{project.location || "Pune"}</span>
                                 </div>
                                 {developer && (
                                     <Link href={`/developers/${developer.id}`} className="flex items-center gap-2 text-white/90 group">
-                                        <Building2 className="h-5 w-5 text-amber-500" />
-                                        <span className="text-lg font-bold group-hover:text-amber-400 transition-colors">By {developer.name}</span>
+                                        <Building2 className="h-5 w-5 text-primary" />
+                                        <span className="text-lg font-bold group-hover:text-primary transition-colors">By {developer.name}</span>
                                     </Link>
                                 )}
                             </div>
@@ -159,7 +159,7 @@ export default async function ProjectDetails({
                                 <a 
                                     key={item} 
                                     href={`#${item.toLowerCase()}`}
-                                    className="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-amber-600 transition-all"
+                                    className="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-primary transition-all"
                                 >
                                     {item}
                                 </a>
@@ -208,7 +208,7 @@ export default async function ProjectDetails({
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                                         {features.map((feature: string, index: number) => (
                                             <div key={index} className="flex flex-col gap-3">
-                                                <div className="h-10 w-10 rounded-[5px] bg-gray-50 border border-gray-100 flex items-center justify-center text-amber-600">
+                                                <div className="h-10 w-10 rounded-[5px] bg-gray-50 border border-gray-100 flex items-center justify-center text-primary">
                                                     <CheckCircle className="h-5 w-5" />
                                                 </div>
                                                 <span className="text-gray-900 font-bold text-xs uppercase tracking-wider">{feature}</span>
@@ -328,7 +328,7 @@ export default async function ProjectDetails({
                                         <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">Full Name</label>
                                         <input
                                             type="text"
-                                            className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-[5px] focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 text-sm font-bold text-gray-900 transition-all"
+                                            className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-[5px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm font-bold text-gray-900 transition-all"
                                             placeholder="Your Name"
                                         />
                                     </div>
@@ -336,19 +336,19 @@ export default async function ProjectDetails({
                                         <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">Phone Number</label>
                                         <input
                                             type="tel"
-                                            className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-[5px] focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 text-sm font-bold text-gray-900 transition-all"
+                                            className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-[5px] focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm font-bold text-gray-900 transition-all"
                                             placeholder="+91 00000 00000"
                                         />
                                     </div>
-                                    <button type="button" className="w-full bg-amber-600 text-white py-5 rounded-[5px] font-bold uppercase tracking-widest text-xs hover:bg-gray-900 transition-all shadow-sm active:scale-95">
+                                    <button type="button" className="w-full bg-primary hover:bg-primary/95 text-white py-3.5 rounded-[5px] font-extrabold text-sm tracking-wider transition-all active:scale-[0.99] cursor-pointer shadow-md shadow-primary/10">
                                         Request Details
                                     </button>
                                 </form>
 
                                 <div className="mt-8 border-t border-gray-100 pt-8">
                                     <div className="grid grid-cols-2 gap-4">
-                                        <button className="flex flex-col items-center gap-2 p-4 bg-gray-50 rounded-[5px] border border-gray-100 hover:border-amber-200 transition-all group">
-                                            <Phone className="h-5 w-5 text-gray-400 group-hover:text-amber-600" />
+                                        <button className="flex flex-col items-center gap-2 p-4 bg-gray-50 rounded-[5px] border border-gray-100 hover:border-primary/20 transition-all group">
+                                            <Phone className="h-5 w-5 text-gray-400 group-hover:text-primary" />
                                             <span className="text-[9px] font-bold uppercase tracking-widest text-gray-500">Call Now</span>
                                         </button>
                                         <button className="flex flex-col items-center gap-2 p-4 bg-gray-50 rounded-[5px] border border-gray-100 hover:border-blue-200 transition-all group">
@@ -375,7 +375,7 @@ export default async function ProjectDetails({
 
             {/* Bottom Mobile Action Bar (Sticky Focus) */}
             <div className="md:hidden fixed bottom-6 left-6 right-6 z-[99] animate-bounce">
-                <button className="w-full bg-primary text-white py-5 rounded-[5px] font-bold uppercase tracking-widest text-xs shadow-2xl shadow-primary/40 active:scale-95 transition-all">
+                <button className="w-full bg-primary text-white py-3.5 rounded-[5px] font-extrabold text-sm tracking-wider shadow-2xl shadow-primary/40 active:scale-95 transition-all">
                     Enquire Now
                 </button>
             </div>

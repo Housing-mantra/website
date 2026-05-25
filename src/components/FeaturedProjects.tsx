@@ -159,15 +159,15 @@ export function FeaturedProjects() {
   }
 
   return (
-    <section className="py-20 bg-[#fafbfc] font-sans relative overflow-hidden">
+    <section className="py-16 bg-[#fafbfc] font-sans relative overflow-hidden">
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-12">
-          <h2 className="text-3xl md:text-[38px] font-extrabold text-[#1b2534] tracking-tight leading-tight">
-            What Are the <span className="text-primary font-black">Trending New Projects</span> in Pune
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4 text-[#1b2534]">
+            What Are the Trending New Projects in Pune
           </h2>
-          <p className="text-[#6f7e92] mt-3 font-medium text-sm md:text-[15px] max-w-3xl">
+          <p className="text-gray-600 max-w-2xl mx-auto">
             Explore top-rated, RERA-verified projects from trusted developers across Pune's fastest-growing markets.
           </p>
         </div>
@@ -224,17 +224,17 @@ export function FeaturedProjects() {
                 <Link
                   href={`/projects/${project.id}`}
                   key={project.id}
-                  className="block shrink-0 w-[85vw] sm:w-[45vw] md:w-[31.5vw] min-w-[300px] max-w-[380px] snap-start group"
+                  className="block shrink-0 w-[82vw] sm:w-[45vw] md:w-[31.5vw] lg:w-[calc(25%-18px)] min-w-[260px] lg:min-w-0 max-w-[380px] lg:max-w-none snap-start group"
                 >
                   <motion.div
                     initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.3) }}
                     viewport={{ once: true }}
-                    className="relative rounded-[5px] border border-gray-100 bg-white shadow-sm hover:shadow-md hover:border-gray-200 transition-all duration-300 overflow-hidden h-[460px] flex flex-col justify-between"
+                    className="relative rounded-[5px] border border-gray-100 bg-white shadow-sm hover:shadow-md hover:border-gray-200 transition-all duration-300 overflow-hidden h-[360px] flex flex-col justify-between"
                   >
                     {/* Image Block */}
-                    <div className="relative h-[230px] w-full overflow-hidden shrink-0 rounded-t-[5px]">
+                    <div className="relative h-[175px] w-full overflow-hidden shrink-0 rounded-t-[5px]">
                       <img
                         src={project.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1000&auto=format&fit=crop"}
                         alt={project.title}
@@ -258,21 +258,21 @@ export function FeaturedProjects() {
                     </div>
 
                     {/* Card Body */}
-                    <div className="p-5 flex-1 flex flex-col justify-between bg-white rounded-b-[5px]">
+                    <div className="p-4 flex-1 flex flex-col justify-between bg-white rounded-b-[5px]">
                       <div>
                         {/* Title */}
-                        <h3 className="text-[#1b2534] text-lg font-bold group-hover:text-primary transition-colors line-clamp-1 leading-snug mb-1">
+                        <h3 className="text-[#1b2534] text-base font-bold group-hover:text-primary transition-colors line-clamp-1 leading-snug mb-0.5">
                           {project.title}
                         </h3>
                         
                         {/* Location */}
-                        <div className="flex items-center gap-1 text-[#6f7e92] text-[13px] font-medium mb-3">
+                        <div className="flex items-center gap-1 text-[#6f7e92] text-[12px] font-medium mb-1.5">
                           <MapPin className="h-3.5 w-3.5 text-[#6f7e92] shrink-0" />
                           {project.location}
                         </div>
 
                         {/* Price */}
-                        <p className="text-[#1b2534] text-base font-extrabold tracking-tight">
+                        <p className="text-[#1b2534] text-[15px] font-extrabold tracking-tight">
                           ₹ {project.price.includes("onwards") ? project.price.replace("onwards", "") : project.price}
                         </p>
                       </div>
@@ -280,19 +280,19 @@ export function FeaturedProjects() {
                       {/* Bottom Section with Dotted Line & Columns */}
                       <div className="mt-auto">
                         {/* Dotted Divider line */}
-                        <div className="border-t border-dashed border-[#eef2f6] my-4 w-full" />
+                        <div className="border-t border-dashed border-[#eef2f6] my-2.5 w-full" />
                         
                         {/* Metadata Grid */}
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <p className="text-[#a0aebf] text-[9px] uppercase font-extrabold tracking-widest mb-0.5">BHK</p>
-                            <p className="text-[#1b2534] text-[13px] font-extrabold tracking-tight line-clamp-1">
+                            <p className="text-[#1b2534] text-[12px] font-extrabold tracking-tight line-clamp-1">
                               {getBHKRange(project)}
                             </p>
                           </div>
                           <div>
                             <p className="text-[#a0aebf] text-[9px] uppercase font-extrabold tracking-widest mb-0.5">AREA</p>
-                            <p className="text-[#1b2534] text-[13px] font-extrabold tracking-tight line-clamp-1">
+                            <p className="text-[#1b2534] text-[12px] font-extrabold tracking-tight line-clamp-1">
                               {getAreaRange(project)}
                             </p>
                           </div>

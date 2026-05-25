@@ -108,7 +108,7 @@ export function Navbar() {
                 isTransparent ? "bg-transparent" : "bg-white shadow-sm"
             )}
         >
-            <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+            <div className="container mx-auto flex h-16 items-center justify-between px-4 max-w-7xl">
                 <div className="flex items-center gap-6">
                     <Link href="/" className="flex items-center gap-1.5 select-none" onClick={() => setIsMobileMenuOpen(false)}>
                         {/* Beautiful sharp icon */}

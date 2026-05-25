@@ -30,7 +30,7 @@ export function Hero() {
     };
 
     return (
-        <section className="relative h-[660px] w-full flex items-center justify-center">
+        <section className="relative h-[726px] w-full flex items-center justify-center">
             {/* Background Image with Overlay */}
             <div
                 className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"

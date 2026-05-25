@@ -70,17 +70,17 @@ export default function DevelopersPage() {
 
             {/* Breadcrumb */}
             <div className="bg-white border-b mt-16">
-                <div className="container mx-auto px-4 py-4">
+                <div className="container mx-auto px-4 py-4 max-w-7xl">
                     <div className="flex items-center text-sm text-gray-500 gap-2">
-                        <Link href="/" className="hover:text-amber-600">Home</Link>
+                        <Link href="/" className="hover:text-primary">Home</Link>
                         <ChevronRight className="w-4 h-4" />
                         <span className="text-gray-900 font-medium">Developers</span>
                     </div>
                 </div>
             </div>
 
-            <section className="py-12 md:py-16">
-                <div className="container mx-auto px-4">
+            <section className="py-16">
+                <div className="container mx-auto px-4 max-w-7xl">
                     <div className="text-center mb-12">
                         <h1 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">Our Trusted Partners</h1>
                         <p className="text-gray-500 max-w-2xl mx-auto text-lg font-medium">
@@ -104,7 +104,7 @@ export default function DevelopersPage() {
                                         <DeveloperLogo dev={dev} />
                                     </div>
                                     <div className="min-w-0">
-                                        <h2 className="text-sm font-bold text-gray-900 group-hover:text-amber-600 transition-colors truncate leading-tight">
+                                        <h2 className="text-sm font-bold text-gray-900 group-hover:text-primary transition-colors truncate leading-tight">
                                             {dev.name}
                                         </h2>
                                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1 opacity-80">

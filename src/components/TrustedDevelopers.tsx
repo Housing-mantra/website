@@ -70,8 +70,8 @@ export const TrustedDevelopers = () => {
         );
     }
     return (
-        <section className="py-20 bg-gray-50/50">
-            <div className="container mx-auto px-4">
+        <section className="py-16 bg-gray-50/50">
+            <div className="container mx-auto px-4 max-w-7xl">
                 <div className="flex items-end justify-between mb-10">
                     <div>
                         <h2 className="text-3xl font-extrabold text-gray-900 mb-2">Trusted Developers</h2>
@@ -79,7 +79,7 @@ export const TrustedDevelopers = () => {
                     </div>
                     <Link 
                         href="/developers" 
-                        className="flex items-center gap-2 text-amber-600 font-bold hover:gap-3 transition-all group"
+                        className="flex items-center gap-2 text-primary font-bold hover:gap-3 transition-all group"
                     >
                         See All Developers
                         <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -93,11 +93,11 @@ export const TrustedDevelopers = () => {
                             href={`/developers/${dev.id}`}
                             className="group flex items-center gap-4 p-5 bg-white rounded-[5px] border border-gray-100 shadow-sm transition-all duration-500"
                         >
-                            <div className="h-16 w-16 min-w-[64px] rounded-[5px] flex items-center justify-center overflow-hidden bg-white border border-gray-50 group-hover:border-amber-100 transition-all shadow-sm relative">
+                            <div className="h-16 w-16 min-w-[64px] rounded-[5px] flex items-center justify-center overflow-hidden bg-white border border-gray-50 group-hover:border-primary/20 transition-all shadow-sm relative">
                                 <DeveloperLogo dev={dev} />
                             </div>
                             <div className="min-w-0">
-                                <h3 className="text-sm font-bold text-gray-900 group-hover:text-amber-600 transition-colors truncate leading-tight">{dev.name}</h3>
+                                <h3 className="text-sm font-bold text-gray-900 group-hover:text-primary transition-colors truncate leading-tight">{dev.name}</h3>
                                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1 opacity-80">{dev.projectsCount} Projects</p>
                             </div>
                         </Link>
