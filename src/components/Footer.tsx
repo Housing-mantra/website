@@ -10,7 +10,7 @@ export function Footer() {
                     <div>
                         <div className="mb-6 flex items-center gap-1.5 select-none">
                             {/* Beautiful sharp icon */}
-                            <svg className="h-10 w-10 shrink-0" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg className="h-[38px] w-[38px] md:h-10 md:w-10 shrink-0" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="40" cy="40" r="36" fill="none" stroke="#ffffff" strokeWidth="2.5" />
                                 <circle cx="40" cy="40" r="30.5" fill="none" stroke="#ffffff" strokeWidth="1.2" />
                                 <path d="M40 22 L22 36 L24 55 L56 55 L58 36 Z" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinejoin="round" />
