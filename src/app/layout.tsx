@@ -83,7 +83,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${rubik.variable} ${oswald.variable} antialiased font-rubik`}
+        className={`${rubik.variable} ${oswald.variable} antialiased font-sans`}
       >
         <script
           type="application/ld+json"

@@ -285,13 +285,13 @@ export function FeaturedProjects() {
                         {/* Metadata Grid */}
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <p className="text-[#a0aebf] text-[9px] uppercase font-extrabold tracking-widest mb-0.5">BHK</p>
+                            <p className="text-[#7c8b9d] text-[9px] uppercase font-extrabold tracking-widest mb-0.5">BHK</p>
                             <p className="text-[#1b2534] text-[12px] font-extrabold tracking-tight line-clamp-1">
                               {getBHKRange(project)}
                             </p>
                           </div>
                           <div>
-                            <p className="text-[#a0aebf] text-[9px] uppercase font-extrabold tracking-widest mb-0.5">AREA</p>
+                            <p className="text-[#7c8b9d] text-[9px] uppercase font-extrabold tracking-widest mb-0.5">AREA</p>
                             <p className="text-[#1b2534] text-[12px] font-extrabold tracking-tight line-clamp-1">
                               {getAreaRange(project)}
                             </p>
