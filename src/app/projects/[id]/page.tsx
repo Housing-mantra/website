@@ -374,7 +374,7 @@ export default async function ProjectDetails({
             </div>
 
             {/* Bottom Mobile Action Bar (Sticky Focus) */}
-            <div className="md:hidden fixed bottom-6 left-6 right-6 z-[99] animate-bounce">
+            <div className="md:hidden fixed bottom-20 left-6 right-6 z-[99] animate-bounce">
                 <button className="w-full bg-primary text-white py-3.5 rounded-[5px] font-extrabold text-sm tracking-wider shadow-2xl shadow-primary/40 active:scale-95 transition-all">
                     Enquire Now
                 </button>
