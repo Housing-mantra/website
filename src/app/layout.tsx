@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Rubik, Oswald } from "next/font/google";
 import "./globals.css";
+import { MantraAiAgent } from "@/components/MantraAiAgent";
 
 const rubik = Rubik({
   variable: "--font-rubik",
@@ -130,6 +131,7 @@ export default function RootLayout({
           }}
         />
         {children}
+        <MantraAiAgent />
       </body>
     </html>
   );

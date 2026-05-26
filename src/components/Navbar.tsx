@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, User, X, MapPin, ChevronDown, Building2, Loader2 } from "lucide-react";
+import { Menu, User, X, MapPin, ChevronDown, Building2, Loader2, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
@@ -211,6 +211,22 @@ export function Navbar() {
                         <span className="bg-secondary text-white rounded-full p-0.5 text-xs">FREE</span>
                         Post Property
                     </Link>
+
+                    {/* Mantra AI Agent Button */}
+                    <button 
+                        onClick={() => window.dispatchEvent(new CustomEvent('open-ai-chat'))}
+                        className={cn(
+                            "hidden md:flex items-center gap-2 rounded-[5px] px-4 py-2 text-sm font-bold transition-all duration-300 hover:scale-[1.02] cursor-pointer relative overflow-hidden group shadow-md shadow-primary/20 bg-gradient-to-r from-primary to-[#8b3dfc] hover:from-[#8b3dfc] hover:to-primary text-white"
+                        )}
+                    >
+                        <Sparkles className="h-4 w-4 text-secondary animate-pulse" />
+                        <span>Mantra AI</span>
+                        {/* Live active wave indicator */}
+                        <span className="relative flex h-2 w-2 shrink-0">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+                        </span>
+                    </button>
                     {user ? (
                         <div className="relative">
                             <button
@@ -366,6 +382,20 @@ export function Navbar() {
                             </div>
 
                             <hr className="border-gray-100" />
+
+                            {/* Mobile Mantra AI Button */}
+                            <button
+                                onClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    window.dispatchEvent(new CustomEvent('open-ai-chat'));
+                                }}
+                                className="w-full flex items-center justify-between gap-2 rounded-[5px] bg-primary px-4 py-3 text-sm font-bold text-white hover:bg-primary/95 transition-all duration-300 cursor-pointer shadow-md shadow-primary/25 mb-2"
+                            >
+                                <div className="flex items-center gap-2">
+                                    <Sparkles className="h-4 w-4 text-secondary animate-pulse" />
+                                    <span>Mantra AI Assistant</span>
+                                </div>
+                            </button>
 
                             <Link
                                 href="/post-property"
