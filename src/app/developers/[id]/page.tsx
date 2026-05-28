@@ -7,9 +7,46 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, Building2, MapPin, Award, Calendar, Home, CheckCircle } from "lucide-react";
+import { Metadata } from "next";
 
 // ISR: Cache for 5 minutes, background regeneration
 export const revalidate = 300;
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+    const { id } = await params;
+    const developer = await getDeveloperBySlug(id);
+
+    if (!developer) {
+        return {
+            title: "Developer Not Found",
+            description: "The requested developer profile could not be found.",
+        };
+    }
+
+    const experience = (developer as any).experience || `${2026 - developer.established} Years`;
+
+    return {
+        title: `${developer.name} — Trusted Builder in Pune`,
+        description: `${developer.name} — ${experience} experience, ${developer.projectsCount || 'multiple'} projects delivered in Pune & PCMC. ${developer.description?.substring(0, 120) || 'Leading real estate developer.'}`,
+        openGraph: {
+            title: `${developer.name} | Real Estate Developer — Housing Mantra`,
+            description: `Explore projects by ${developer.name}. Est. ${developer.established}. ${experience} experience in Pune real estate.`,
+            url: `https://housingmantra.in/developers/${developer.id}`,
+            images: developer.image ? [
+                {
+                    url: developer.image,
+                    width: 1200,
+                    height: 630,
+                    alt: `${developer.name} — Developer Profile`,
+                }
+            ] : [],
+        },
+    };
+}
 
 export default async function DeveloperProfile({
     params,
@@ -46,6 +83,31 @@ export default async function DeveloperProfile({
 
     return (
         <main className="min-h-screen bg-gray-50">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Organization",
+                        "name": developer.name,
+                        "description": about,
+                        "url": `https://housingmantra.in/developers/${developer.id}`,
+                        "logo": developer.logo || "",
+                        "image": developer.image || "",
+                        "foundingDate": developer.established?.toString(),
+                        "address": {
+                            "@type": "PostalAddress",
+                            "addressLocality": "Pune",
+                            "addressRegion": "Maharashtra",
+                            "addressCountry": "IN"
+                        },
+                        "numberOfEmployees": {
+                            "@type": "QuantitativeValue",
+                            "value": developer.projectsCount || 0
+                        }
+                    })
+                }}
+            />
             <Navbar />
 
             {/* Hero Section */}

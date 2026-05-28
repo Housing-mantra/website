@@ -85,8 +85,6 @@ const nextConfig = {
     poweredByHeader: false,  // Remove X-Powered-By header (security + slight perf)
 
     // ─── Build ─────────────────────────────────────────────────────────────────
-    eslint: { ignoreDuringBuilds: true },
-    typescript: { ignoreBuildErrors: true },
 };
 
 module.exports = nextConfig;
