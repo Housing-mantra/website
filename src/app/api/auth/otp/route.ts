@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       if (!userQuery.empty) {
         // User exists! Sign them in instantly
         const userDoc = userQuery.docs[0];
-        const targetUser = {
+        const targetUser: any = {
           id: userDoc.id,
           ...userDoc.data()
         };

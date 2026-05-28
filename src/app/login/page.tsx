@@ -204,7 +204,10 @@ export default function CustomerLoginPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-[420px] px-4 z-10">
         
         {/* Main Card Wrapper (Strict rounded-[5px] to match platform aesthetics) */}
-        <div className="bg-white border border-slate-100 rounded-[5px] shadow-lg shadow-primary/5 overflow-hidden flex flex-col relative pb-8">
+        <div 
+          className="bg-white border border-transparent rounded-[5px] overflow-hidden flex flex-col relative pb-8"
+          style={{ boxShadow: 'rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px' }}
+        >
           
           {/* Top Residential Houses SVG Illustration */}
           <div className="w-full h-32 relative bg-slate-50 border-b border-slate-100">

@@ -9,19 +9,19 @@ export async function GET() {
     // 1. Seed Admin user in Firebase Auth + Firestore
     let adminUid = '';
     try {
-      const existing = await adminAuth.getUserByEmail('admin@housingmantra.in');
+      const existing = await adminAuth.getUserByEmail('digital.housingmantra@gmail.com');
       adminUid = existing.uid;
     } catch {
       const newAdmin = await adminAuth.createUser({
-        email: 'admin@housingmantra.in',
-        password: 'admin123',
+        email: 'digital.housingmantra@gmail.com',
+        password: 'adminlogin',
         displayName: 'Super Admin',
       });
       adminUid = newAdmin.uid;
     }
 
     await adminDb.collection('users').doc(adminUid).set({
-      email: 'admin@housingmantra.in',
+      email: 'digital.housingmantra@gmail.com',
       name: 'Super Admin',
       phone: '9999900000',
       role: 'ADMIN',
@@ -128,7 +128,7 @@ export async function GET() {
       success: true,
       message: 'Firestore seeding completed!',
       users: {
-        admin: 'admin@housingmantra.in / admin123',
+        admin: 'digital.housingmantra@gmail.com / adminlogin',
         customer: 'customer@housingmantra.in / password123',
       },
       seededCount: {

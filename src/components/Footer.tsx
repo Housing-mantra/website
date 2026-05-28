@@ -94,7 +94,7 @@ export function Footer() {
                 </div>
 
                 <div className="border-t border-white/10 pt-8 text-center text-gray-500 text-sm">
-                    <p>© {new Date().getFullYear()} Housing Mantra. All rights reserved.</p>
+                    <p>Copyright © {new Date().getFullYear()} Housing Mantra</p>
                 </div>
             </div>
 

@@ -25,7 +25,7 @@ export async function DELETE(req: Request) {
     const userData = userDoc.data();
 
     // Protect primary admin
-    if (userData?.email === 'admin@housingmantra.in') {
+    if (userData?.email === 'digital.housingmantra@gmail.com') {
       return NextResponse.json({ success: false, message: 'Cannot delete the primary admin user.' }, { status: 400 });
     }
 

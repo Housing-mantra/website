@@ -6,7 +6,7 @@ import { AdminDashboardClient } from '@/components/admin/AdminDashboardClient';
 
 export const dynamic = 'force-dynamic';
 
-export default async function AdminPage() {
+export default async function AdminCatchAllPage() {
   const currentUser = await getCurrentUser();
 
   // If not logged in, or not ADMIN, show Admin login portal
