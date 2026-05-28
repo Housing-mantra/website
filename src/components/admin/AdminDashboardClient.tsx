@@ -276,8 +276,9 @@ export function AdminDashboardClient({ stats, projects, developers, users, leads
     setDevDescription(dev.description || '');
     setDevEstablished(dev.established?.toString() || '');
     setFormError('');
-    setIsEditDevOpen(true);
+    router.push('/admin/developers/edit');
   };
+
 
   const handleEditDeveloperSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -307,8 +308,7 @@ export function AdminDashboardClient({ stats, projects, developers, users, leads
         throw new Error(data.message || 'Failed to update developer profile.');
       }
 
-      // Reset
-      setIsEditDevOpen(false);
+      // Reset & redirect
       setEditingDeveloperId('');
       setDevName('');
       setDevLogo('');
@@ -318,13 +318,14 @@ export function AdminDashboardClient({ stats, projects, developers, users, leads
       setDevOngoingProjects('');
       setDevDescription('');
       setDevEstablished('');
-      router.refresh();
+      router.push('/admin/developers');
     } catch (err: any) {
       setFormError(err?.message || 'Error updating developer profile.');
     } finally {
       setFormLoading(false);
     }
   };
+
 
   const handleAddProject = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -486,8 +487,8 @@ export function AdminDashboardClient({ stats, projects, developers, users, leads
       <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#6c1cdc]/3 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-[#f6d40c]/3 rounded-full blur-[140px] pointer-events-none" />
 
-      {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-slate-100 flex flex-col justify-between shrink-0 z-10 shadow-sm">
+      {/* Sidebar — fixed left column */}
+      <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-slate-100 flex flex-col justify-between shrink-0 z-30 shadow-sm">
         <div>
           {/* Logo Header - Brand Match */}
           <div className="h-16 flex items-center px-2 border-b border-slate-100 bg-transparent justify-start shrink-0 overflow-visible">
@@ -584,9 +585,9 @@ export function AdminDashboardClient({ stats, projects, developers, users, leads
         </div>
       </aside>
 
-      {/* Main Content Pane */}
-      <main className="flex-1 flex flex-col min-w-0 overflow-y-auto z-10 relative bg-[#f8fafc]">
-        <header className="h-16 border-b border-slate-100 flex items-center justify-between px-8 bg-white shrink-0 shadow-sm">
+      {/* Main Content Pane — offset by sidebar width */}
+      <main className="ml-64 flex-1 flex flex-col min-w-0 h-screen overflow-y-auto z-10 relative bg-[#f8fafc]">
+        <header className="sticky top-0 z-20 h-16 border-b border-slate-100 flex items-center justify-between px-8 bg-white shrink-0 shadow-sm">
           <h1 className="text-lg font-black tracking-tight text-slate-800 capitalize">
             {activeTab === 'add-project' ? 'Add New Project' : activeTab === 'add-developer' ? 'Add New Developer' : `${activeTab} Dashboard`}
           </h1>
@@ -609,6 +610,141 @@ export function AdminDashboardClient({ stats, projects, developers, users, leads
         </header>
 
         <div className="p-8 max-w-7xl w-full mx-auto space-y-8 flex-1">
+          {/* TAB: EDIT DEVELOPER INLINE VIEW */}
+          {activeTab === 'edit-developer' && editingDeveloperId && (
+            <div className="bg-white border border-slate-100 rounded-[10px] p-8 shadow-sm">
+              <div className="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                <div>
+                  <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest">Edit Developer Profile</h3>
+                  <p className="text-xs text-slate-400 mt-1 font-semibold">Update the details for this developer.</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => router.push('/admin/developers')}
+                  className="px-3 py-1.5 border border-slate-200 hover:border-red-500 hover:text-red-500 rounded-[5px] text-xs font-bold transition-all bg-white cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </div>
+
+              {formError && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-600 text-xs rounded-[6px] font-semibold">
+                  ⚠️ {formError}
+                </div>
+              )}
+
+              <form onSubmit={handleEditDeveloperSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2">Developer Name</label>
+                    <input
+                      type="text"
+                      required
+                      value={devName}
+                      onChange={e => setDevName(e.target.value)}
+                      className="block w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/10 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
+                      placeholder="e.g. Swagat Group, VTP Realty"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2">Est. Year (Established)</label>
+                    <input
+                      type="number"
+                      value={devEstablished}
+                      onChange={e => setDevEstablished(e.target.value)}
+                      className="block w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/10 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
+                      placeholder="e.g. 1998"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2">Years of Experience</label>
+                    <input
+                      type="text"
+                      value={devExperience}
+                      onChange={e => setDevExperience(e.target.value)}
+                      className="block w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/10 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
+                      placeholder="e.g. 25+ Years"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2">Delivered Projects Count</label>
+                    <input
+                      type="text"
+                      value={devProjectsDelivered}
+                      onChange={e => setDevProjectsDelivered(e.target.value)}
+                      className="block w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/10 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
+                      placeholder="e.g. 80+ Projects"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2">Ongoing Projects Count</label>
+                    <input
+                      type="text"
+                      value={devOngoingProjects}
+                      onChange={e => setDevOngoingProjects(e.target.value)}
+                      className="block w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/10 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
+                      placeholder="e.g. 8 Projects"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2">Developer Logo URL</label>
+                    <input
+                      type="text"
+                      value={devLogo}
+                      onChange={e => setDevLogo(e.target.value)}
+                      className="block w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/10 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
+                      placeholder="e.g. https://domain.com/logo.png"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2">Developer Banner/Cover Image URL</label>
+                  <input
+                    type="text"
+                    value={devImage}
+                    onChange={e => setDevImage(e.target.value)}
+                    className="block w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/10 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
+                    placeholder="e.g. https://images.unsplash.com/..."
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2">Developer Description / About Builder</label>
+                  <textarea
+                    value={devDescription}
+                    onChange={e => setDevDescription(e.target.value)}
+                    rows={4}
+                    className="block w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/10 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
+                    placeholder="Provide builder details, legacy, key specialties, corporate values..."
+                  />
+                </div>
+
+                <div className="flex gap-4 pt-2 border-t border-slate-100">
+                  <button
+                    type="button"
+                    onClick={() => router.push('/admin/developers')}
+                    className="flex-1 py-3 bg-white hover:bg-slate-50 text-slate-500 border border-slate-200 rounded-[6px] text-xs font-black uppercase tracking-wider transition-all cursor-pointer text-center"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={formLoading}
+                    className="flex-1 py-3 bg-gradient-to-r from-[#6c1cdc] to-[#510fb3] hover:from-[#7b2be4] hover:to-[#5e12cc] disabled:from-[#6c1cdc]/40 disabled:to-[#510fb3]/40 text-white font-black rounded-[6px] text-xs uppercase tracking-wider transition-all shadow-sm cursor-pointer"
+                  >
+                    {formLoading ? 'Updating...' : 'Update & Publish Changes'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
           {/* TAB: ADD DEVELOPER INLINE VIEW */}
           {activeTab === 'add-developer' && (
             <div className="bg-white border border-slate-100 rounded-[10px] p-8 shadow-sm">
@@ -1464,139 +1600,9 @@ export function AdminDashboardClient({ stats, projects, developers, users, leads
 
 
 
-      {/* Edit Developer Modal */}
-      {isEditDevOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4 overflow-y-auto">
-          <div className="bg-[#120526]/95 backdrop-blur-2xl border border-white/[0.08] w-full max-w-2xl p-8 shadow-[0_20px_50px_rgba(108,28,220,0.15)] relative my-8 max-h-[90vh] overflow-y-auto rounded-[12px] text-white">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-black text-white uppercase tracking-wider">Update Developer Profile</h3>
-              <button 
-                type="button" 
-                onClick={() => setIsEditDevOpen(false)}
-                className="text-white/60 hover:text-white font-black text-xl cursor-pointer"
-              >
-                &times;
-              </button>
-            </div>
 
-            {formError && (
-              <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-300 text-xs rounded-[6px] font-semibold">
-                ⚠️ {formError}
-              </div>
-            )}
+      {/* Edit Developer Modal — removed, now uses inline page */}
 
-            <form onSubmit={handleEditDeveloperSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-wider text-white/60 mb-2">Developer Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={devName}
-                    onChange={e => setDevName(e.target.value)}
-                    className="block w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-[6px] text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/40 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
-                    placeholder="e.g. Swagat Group, VTP Realty"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-wider text-white/60 mb-2">Est. Year (Established)</label>
-                  <input
-                    type="number"
-                    value={devEstablished}
-                    onChange={e => setDevEstablished(e.target.value)}
-                    className="block w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-[6px] text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/40 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
-                    placeholder="e.g. 1998"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-wider text-white/60 mb-2">Years of Experience</label>
-                  <input
-                    type="text"
-                    value={devExperience}
-                    onChange={e => setDevExperience(e.target.value)}
-                    className="block w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-[6px] text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/40 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
-                    placeholder="e.g. 25+ Years"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-wider text-white/60 mb-2">Delivered Projects Count</label>
-                  <input
-                    type="text"
-                    value={devProjectsDelivered}
-                    onChange={e => setDevProjectsDelivered(e.target.value)}
-                    className="block w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-[6px] text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/40 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
-                    placeholder="e.g. 80+ Projects"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-wider text-white/60 mb-2">Ongoing Projects Count</label>
-                  <input
-                    type="text"
-                    value={devOngoingProjects}
-                    onChange={e => setDevOngoingProjects(e.target.value)}
-                    className="block w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-[6px] text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/40 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
-                    placeholder="e.g. 8 Projects"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-wider text-white/60 mb-2">Developer Logo URL</label>
-                  <input
-                    type="text"
-                    value={devLogo}
-                    onChange={e => setDevLogo(e.target.value)}
-                    className="block w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-[6px] text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/40 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
-                    placeholder="e.g. https://domain.com/logo.png"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-black uppercase tracking-wider text-white/60 mb-2">Developer Banner/Cover Image URL</label>
-                <input
-                  type="text"
-                  value={devImage}
-                  onChange={e => setDevImage(e.target.value)}
-                  className="block w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-[6px] text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/40 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
-                  placeholder="e.g. https://images.unsplash.com/..."
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-black uppercase tracking-wider text-white/60 mb-2">Developer Description / About Builder</label>
-                <textarea
-                  value={devDescription}
-                  onChange={e => setDevDescription(e.target.value)}
-                  rows={4}
-                  className="block w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-[6px] text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-[#6c1cdc]/40 focus:border-[#6c1cdc] text-sm font-semibold transition-all"
-                  placeholder="Provide builder details, legacy, key specialties, corporate values..."
-                />
-              </div>
-
-              <div className="flex gap-4 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setIsEditDevOpen(false)}
-                  className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white/80 border border-white/5 rounded-[6px] text-xs uppercase tracking-wider transition-all cursor-pointer text-center"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={formLoading}
-                  className="flex-1 py-3 bg-gradient-to-r from-[#6c1cdc] to-[#510fb3] hover:from-[#7b2be4] hover:to-[#5e12cc] disabled:from-[#6c1cdc]/40 disabled:to-[#510fb3]/40 text-white font-bold rounded-[6px] text-xs uppercase tracking-wider transition-all shadow-sm cursor-pointer"
-                >
-                  {formLoading ? 'Updating Profile...' : 'Update & Publish Changes'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
 
       {/* Add User Modal */}
       {isAddUserOpen && (
