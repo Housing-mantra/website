@@ -28,9 +28,10 @@ interface AdminDashboardClientProps {
 export function AdminDashboardClient({ stats, projects, developers, users, leads, currentUser }: AdminDashboardClientProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const activeTab: 'overview' | 'projects' | 'developers' | 'users' | 'leads' | 'add-project' | 'add-developer' = 
+  const activeTab: 'overview' | 'projects' | 'developers' | 'users' | 'leads' | 'add-project' | 'add-developer' | 'edit-developer' = 
     pathname === '/admin/projects/add' ? 'add-project' :
     pathname === '/admin/developers/add' ? 'add-developer' :
+    pathname === '/admin/developers/edit' ? 'edit-developer' :
     pathname.includes('/projects') ? 'projects' :
     pathname.includes('/developers') ? 'developers' :
     pathname.includes('/users') ? 'users' :
@@ -589,7 +590,7 @@ export function AdminDashboardClient({ stats, projects, developers, users, leads
       <main className="ml-64 flex-1 flex flex-col min-w-0 h-screen overflow-y-auto z-10 relative bg-[#f8fafc]">
         <header className="sticky top-0 z-20 h-16 border-b border-slate-100 flex items-center justify-between px-8 bg-white shrink-0 shadow-sm">
           <h1 className="text-lg font-black tracking-tight text-slate-800 capitalize">
-            {activeTab === 'add-project' ? 'Add New Project' : activeTab === 'add-developer' ? 'Add New Developer' : `${activeTab} Dashboard`}
+            {activeTab === 'add-project' ? 'Add New Project' : activeTab === 'add-developer' ? 'Add New Developer' : activeTab === 'edit-developer' ? 'Edit Developer Profile' : `${activeTab} Dashboard`}
           </h1>
           <div className="flex items-center gap-3">
             <button
