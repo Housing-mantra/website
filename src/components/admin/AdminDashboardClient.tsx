@@ -1226,7 +1226,7 @@ export function AdminDashboardClient({ stats, projects, developers, users, leads
               <div className="bg-white border border-slate-100 rounded-[10px] p-6 shadow-sm">
                 <div className="flex justify-between items-center mb-6">
                   <h3 className="text-xs font-black text-slate-800 uppercase tracking-widest">Recent Enquiries</h3>
-                  <button onClick={() => setActiveTab('leads')} className="text-xs font-black text-[#6c1cdc] hover:text-[#510fb3] hover:underline cursor-pointer transition-colors">
+                  <button onClick={() => router.push('/admin/leads')} className="text-xs font-black text-[#6c1cdc] hover:text-[#510fb3] hover:underline cursor-pointer transition-colors">
                     View All Leads
                   </button>
                 </div>
