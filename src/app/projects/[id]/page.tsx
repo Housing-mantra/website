@@ -14,7 +14,8 @@ import { ProjectActions } from "@/components/ProjectActions";
 
 import { Metadata } from "next";
 
-export const dynamic = 'force-dynamic';
+// ISR: Cache page for 5 minutes, regenerate in background on demand
+export const revalidate = 300;
 
 export async function generateMetadata({
     params,

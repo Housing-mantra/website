@@ -8,7 +8,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, Building2, MapPin, Award, Calendar, Home, CheckCircle } from "lucide-react";
 
-export const dynamic = 'force-dynamic';
+// ISR: Cache for 5 minutes, background regeneration
+export const revalidate = 300;
 
 export default async function DeveloperProfile({
     params,

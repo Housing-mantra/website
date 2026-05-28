@@ -1,5 +1,6 @@
 import { adminDb } from './firebase-admin';
 import { PROJECTS, DEVELOPERS } from './data';
+import { unstable_cache } from 'next/cache';
 
 export interface FirestoreProject {
   id: string;
@@ -51,28 +52,32 @@ function hasDbCredentials(): boolean {
   return !!(key && key.trim() !== '' && email && email.trim() !== '');
 }
 
-// Fetch all active projects
-export async function getProjects(): Promise<FirestoreProject[]> {
-  if (hasDbCredentials()) {
-    try {
-      const snapshot = await adminDb.collection('projects').where('isActive', '==', true).get();
-      if (!snapshot.empty) {
-        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as FirestoreProject));
+// Fetch all active projects — cached for 5 minutes server-side
+export const getProjects = unstable_cache(
+  async (): Promise<FirestoreProject[]> => {
+    if (hasDbCredentials()) {
+      try {
+        const snapshot = await adminDb.collection('projects').where('isActive', '==', true).get();
+        if (!snapshot.empty) {
+          return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as FirestoreProject));
+        }
+      } catch (error) {
+        console.error('Error fetching projects from Firestore, using static fallback:', error);
       }
-    } catch (error) {
-      console.error('Error fetching projects from Firestore, using static fallback:', error);
     }
-  }
+    // Fallback to static PROJECTS
+    return PROJECTS.map(p => ({
+      ...p,
+      slug: p.id,
+      city: 'Pune',
+      isActive: true,
+      createdAt: new Date().toISOString(),
+    } as any));
+  },
+  ['projects-list'],
+  { revalidate: 300, tags: ['projects'] }
+);
 
-  // Fallback to static PROJECTS
-  return PROJECTS.map(p => ({
-    ...p,
-    slug: p.id,
-    city: 'Pune',
-    isActive: true,
-    createdAt: new Date().toISOString(),
-  } as any));
-}
 
 // Fetch single project by ID or Slug
 export async function getProjectBySlug(slug: string): Promise<FirestoreProject | null> {
@@ -111,29 +116,33 @@ export async function getProjectBySlug(slug: string): Promise<FirestoreProject |
   return null;
 }
 
-// Fetch all developers
-export async function getDevelopers(): Promise<FirestoreDeveloper[]> {
-  if (hasDbCredentials()) {
-    try {
-      const snapshot = await adminDb.collection('developers').get();
-      if (!snapshot.empty) {
-        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as FirestoreDeveloper));
+// Fetch all developers — cached for 5 minutes server-side
+export const getDevelopers = unstable_cache(
+  async (): Promise<FirestoreDeveloper[]> => {
+    if (hasDbCredentials()) {
+      try {
+        const snapshot = await adminDb.collection('developers').get();
+        if (!snapshot.empty) {
+          return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as FirestoreDeveloper));
+        }
+      } catch (error) {
+        console.error('Error fetching developers from Firestore, using static fallback:', error);
       }
-    } catch (error) {
-      console.error('Error fetching developers from Firestore, using static fallback:', error);
     }
-  }
+    // Fallback to static DEVELOPERS
+    return DEVELOPERS.map(d => ({
+      ...d,
+      slug: d.id,
+      description: d.description || d.about,
+      established: d.experience ? 2026 - (parseInt(d.experience) || 10) : 2010,
+      projectsCount: d.projectsCount ? parseInt(d.projectsCount.replace(/[^0-9]/g, '')) || 0 : 0,
+      createdAt: new Date().toISOString(),
+    } as any));
+  },
+  ['developers-list'],
+  { revalidate: 300, tags: ['developers'] }
+);
 
-  // Fallback to static DEVELOPERS
-  return DEVELOPERS.map(d => ({
-    ...d,
-    slug: d.id,
-    description: d.description || d.about,
-    established: d.experience ? 2026 - (parseInt(d.experience) || 10) : 2010,
-    projectsCount: d.projectsCount ? parseInt(d.projectsCount.replace(/[^0-9]/g, '')) || 0 : 0,
-    createdAt: new Date().toISOString(),
-  } as any));
-}
 
 // Fetch single developer by ID or Slug
 export async function getDeveloperBySlug(slug: string): Promise<FirestoreDeveloper | null> {
