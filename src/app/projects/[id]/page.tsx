@@ -17,6 +17,15 @@ import { Metadata } from "next";
 // ISR: Cache page for 5 minutes, regenerate in background on demand
 export const revalidate = 300;
 
+// Fetch dynamic parameters for static regeneration (SSG)
+export async function generateStaticParams() {
+    const { getProjects } = await import("@/lib/db-helpers");
+    const projects = await getProjects();
+    return projects.map((project) => ({
+        id: project.id,
+    }));
+}
+
 export async function generateMetadata({
     params,
 }: {
@@ -27,17 +36,44 @@ export async function generateMetadata({
 
     if (!project) {
         return {
-            title: "Project Not Found",
+            title: "Project Not Found | Housing Mantra",
             description: "The requested project could not be found.",
         };
     }
 
+    // Dynamic unique SEO title construction: e.g. "Diamond Prism City Blue | 2 & 3 BHK Flats | Housing Mantra"
+    let typeText = "";
+    if (project.floorPlans && project.floorPlans.length > 0) {
+        const types = project.floorPlans.map((fp: any) => fp.title.replace(/Grande|Luxury|Penthouse|Layout|Flat/gi, "").trim());
+        const uniqueTypes = Array.from(new Set(types)).filter(Boolean).sort();
+        if (uniqueTypes.length > 1) {
+            const last = uniqueTypes.pop();
+            typeText = `${uniqueTypes.join(', ')} & ${last} Flats`;
+        } else if (uniqueTypes.length === 1) {
+            typeText = `${uniqueTypes[0]} Flats`;
+        }
+    }
+    
+    // Fallback if no floorPlans but custom configurations
+    if (!typeText && project.type) {
+        typeText = project.type.includes("BHK") ? project.type : `${project.type}`;
+    }
+    
+    if (!typeText) {
+        typeText = "2 & 3 BHK Flats";
+    }
+
+    const titleVal = project.title || "Project Details";
+    const seoTitle = `${titleVal} | ${typeText} | Housing Mantra`.substring(0, 65);
+    const seoDescription = project.description?.substring(0, 155) || `Discover ${titleVal} in ${project.location || 'Pune'}. Premium configurations starting at ${project.price || 'on request'}. RERA Registered.`;
+
     return {
-        title: project.title || "Project Details",
-        description: project.description?.substring(0, 160) || project.title || "Premium Real Estate Project",
+        title: seoTitle,
+        description: seoDescription,
         openGraph: {
-            title: `${project.title || "Project"} - ${project.location || "Pune"}`,
-            description: project.description?.substring(0, 160) || project.title || "",
+            title: seoTitle,
+            description: seoDescription,
+            url: `https://housingmantra.in/projects/${project.id}`,
             images: [
                 {
                     url: project.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1200&auto=format&fit=crop",
