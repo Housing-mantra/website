@@ -73,7 +73,7 @@ export async function generateMetadata({
         openGraph: {
             title: seoTitle,
             description: seoDescription,
-            url: `https://housingmantra.in/projects/${project.id}`,
+            url: `https://www.housingmantra.in/projects/${project.id}`,
             images: [
                 {
                     url: project.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1200&auto=format&fit=crop",
@@ -116,7 +116,7 @@ export default async function ProjectDetails({
                         "@type": "RealEstateListing",
                         "name": project.title || "Project Details",
                         "description": project.description || "",
-                        "url": `https://housingmantra.in/projects/${project.id}`,
+                        "url": `https://www.housingmantra.in/projects/${project.id}`,
                         "image": project.image || "",
                         "address": {
                             "@type": "PostalAddress",

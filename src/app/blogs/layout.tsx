@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Housing Mantra Blog — Premium Real Estate Insights",
     description:
       "Expert articles on home buying, RERA compliance, and property investment in Pune.",
-    url: "https://housingmantra.in/blogs",
+    url: "https://www.housingmantra.in/blogs",
   },
 };
 

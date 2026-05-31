@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "Trusted Real Estate Developers in Pune | Housing Mantra",
     description:
       "Browse 50+ verified developer profiles with project portfolios, experience & track records.",
-    url: "https://housingmantra.in/developers",
+    url: "https://www.housingmantra.in/developers",
   },
 };
 

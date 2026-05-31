@@ -35,7 +35,7 @@ export async function generateMetadata({
         openGraph: {
             title: `${developer.name} | Real Estate Developer — Housing Mantra`,
             description: `Explore projects by ${developer.name}. Est. ${developer.established}. ${experience} experience in Pune real estate.`,
-            url: `https://housingmantra.in/developers/${developer.id}`,
+            url: `https://www.housingmantra.in/developers/${developer.id}`,
             images: developer.image ? [
                 {
                     url: developer.image,
@@ -91,7 +91,7 @@ export default async function DeveloperProfile({
                         "@type": "Organization",
                         "name": developer.name,
                         "description": about,
-                        "url": `https://housingmantra.in/developers/${developer.id}`,
+                        "url": `https://www.housingmantra.in/developers/${developer.id}`,
                         "logo": developer.logo || "",
                         "image": developer.image || "",
                         "foundingDate": developer.established?.toString(),

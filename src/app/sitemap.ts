@@ -4,7 +4,7 @@ import { PROJECTS, DEVELOPERS } from '@/lib/data';
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://housingmantra.in';
+    const baseUrl = 'https://www.housingmantra.in';
 
     const projectUrls = PROJECTS.map((project) => ({
         url: `${baseUrl}/projects/${project.id}`,

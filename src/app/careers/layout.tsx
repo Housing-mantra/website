@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Join Housing Mantra — We're Hiring!",
     description:
       "Explore career opportunities in sales, technology, and marketing at Pune's leading PropTech platform.",
-    url: "https://housingmantra.in/careers",
+    url: "https://www.housingmantra.in/careers",
   },
 };
 

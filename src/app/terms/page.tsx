@@ -82,7 +82,7 @@ export default function TermsPage() {
                 </h2>
               </div>
               <p className="text-sm leading-relaxed">
-                Welcome to **Housing Mantra** ("we", "us", "our"). These Terms &amp; Conditions govern your access to and use of our website (housingmantra.in), including any properties listed, developer profiles, and real-time support modules such as Mantra AI.
+                Welcome to **Housing Mantra** ("we", "us", "our"). These Terms &amp; Conditions govern your access to and use of our website (www.housingmantra.in), including any properties listed, developer profiles, and real-time support modules such as Mantra AI.
               </p>
               <p className="text-sm leading-relaxed">
                 By browsing, registering, or requesting pricing details on our platform, you confirm that you are at least 18 years old and fully competent to enter into, abide by, and comply with these legal regulations.

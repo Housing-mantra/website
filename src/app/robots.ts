@@ -18,6 +18,6 @@ export default function robots(): MetadataRoute.Robots {
                 '/private/'
             ],
         },
-        sitemap: 'https://housingmantra.in/sitemap.xml',
+        sitemap: 'https://www.housingmantra.in/sitemap.xml',
     };
 }

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "Browse All Real Estate Projects in Pune | Housing Mantra",
     description:
       "Find your dream home from 100+ premium projects across Pune & PCMC. Verified by Housing Mantra.",
-    url: "https://housingmantra.in/projects",
+    url: "https://www.housingmantra.in/projects",
   },
 };
 

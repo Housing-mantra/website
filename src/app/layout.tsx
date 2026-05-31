@@ -15,7 +15,7 @@ const oswald = Oswald({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://housingmantra.in'),
+  metadataBase: new URL('https://www.housingmantra.in'),
   title: {
     default: "Find Your Perfect Home in Pune | Housing Mantra",
     template: "%s | Housing Mantra"
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://housingmantra.in",
+    url: "https://www.housingmantra.in",
     title: "Find Your Perfect Home in Pune | Housing Mantra",
     description: "Discover verified residential and commercial properties in Pune and PCMC. Luxury apartments, affordable homes, and premium commercial spaces.",
     siteName: "Housing Mantra",
@@ -92,9 +92,9 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "RealEstateAgent",
               "name": "Housing Mantra",
-              "image": "https://housingmantra.in/logo.png",
-              "@id": "https://housingmantra.in",
-              "url": "https://housingmantra.in",
+              "image": "https://www.housingmantra.in/logo.png",
+              "@id": "https://www.housingmantra.in",
+              "url": "https://www.housingmantra.in",
               "telephone": "+91 9172605307",
               "address": {
                 "@type": "PostalAddress",
