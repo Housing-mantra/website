@@ -95,18 +95,19 @@ export default function RootLayout({
               "image": "https://www.housingmantra.in/logo.png",
               "@id": "https://www.housingmantra.in",
               "url": "https://www.housingmantra.in",
-              "telephone": "+91 9172605307",
+              "telephone": "+91 78880 41188",
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "Moshi",
-                "addressLocality": "Pune",
-                "postalCode": "412105",
+                "streetAddress": "Office No - C-103, Wisteriaa Fortune, Bhumkar Das Gugre Rd, Bhagwan Nagar, Bhumkar Nagar, Wakad",
+                "addressLocality": "Pimpri-Chinchwad, Pune",
+                "addressRegion": "Maharashtra",
+                "postalCode": "411033",
                 "addressCountry": "IN"
               },
               "geo": {
                 "@type": "GeoCoordinates",
-                "latitude": 18.6672,
-                "longitude": 73.8741
+                "latitude": 18.5992,
+                "longitude": 73.7634
               },
               "openingHoursSpecification": {
                 "@type": "OpeningHoursSpecification",
@@ -124,8 +125,9 @@ export default function RootLayout({
               },
               "sameAs": [
                 "https://www.facebook.com/housingmantra",
-                "https://www.instagram.com/housingmantra",
-                "https://www.linkedin.com/company/housingmantra"
+                "https://www.instagram.com/housingmantrapune",
+                "https://www.linkedin.com/company/housingmantra",
+                "https://www.youtube.com/@housingmantra"
               ]
             })
           }}
