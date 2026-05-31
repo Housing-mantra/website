@@ -1104,6 +1104,20 @@ export const DEVELOPERS = [
         "ongoingProjects": "2",
         "about": "Sai Ananta Developer is dedicated to creating landmarks that offer high-quality construction, luxury amenities, and prime connectivity in Pune.",
         "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000&auto=format&fit=crop"
+    },
+    {
+        "id": "santiago-group",
+        "name": "Santiago Group",
+        "projectsCount": "5+ Projects",
+        "initials": "SG",
+        "logo": null,
+        "color": "bg-yellow-100 text-yellow-600",
+        "description": "Santiago Group is a premier real estate developer committed to excellence and quality in every project.",
+        "experience": "12 Years",
+        "projectsDelivered": "8+",
+        "ongoingProjects": "3",
+        "about": "Santiago Group is dedicated to creating landmarks that offer high-quality construction, luxury amenities, and prime connectivity in Pune.",
+        "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000&auto=format&fit=crop"
     }
 ];
 
@@ -1163,49 +1177,49 @@ export const PROJECTS = [
     {
         id: "santiago-skymont",
         title: "Santiago Skymont",
-        developer: "Runwal",
-        developerId: "runwal-group",
-        location: "Baner, Pune",
-        price: "1.85 Cr - 3.50 Cr",
-        type: "3 & 4 BHK Luxury Homes",
-        status: "Newly Launched",
-        rera: "P52100045890",
+        developer: "Santiago Group",
+        developerId: "santiago-group",
+        location: "Charholi Phata, Pune",
+        price: "54.54 Lacs onwards",
+        type: "2 & 3 BHK Apartments",
+        status: "Ongoing",
+        rera: "P52100012533",
         possession: "June 2027",
-        landArea: "2.5 Acres",
-        units: "85 Units",
-        towers: "1 Tower / 14 Floors",
+        landArea: "Premium Community",
+        units: "Premium Residences",
+        towers: "High Rise Towers",
         image: "/projects/santiago-skymont/hero.png",
-        description: "Discover the height of luxury at Santiago Skymont in Baner. These ultra-premium 3 & 4 BHK homes are designed for the discerning few, offering unparalleled views and world-class amenities. With a rooftop infinity pool, private gardens, and state-of-the-art smart home technology, Skymont sets a new standard for sophisticated urban living.",
-        tags: ["Premium", "Hill View"],
-        features: ["Rooftop Infinity Pool", "Private Garden", "Smart Home Tech", "Mini Theater", "Concierge Desk"],
+        description: "Discover Santiago Skymont at Charholi Phata, Pune. Offering premium 2 & 3 BHK apartments starting at ₹54.54 Lakhs. Crafted to provide a modern living experience with excellent connectivity and world-class amenities.",
+        tags: ["Charholi Phata", "2 & 3 BHK Flat", "Santiago Group"],
+        features: ["Clubhouse", "Gymnasium", "Swimming Pool", "Kids Play Area", "24/7 Security"],
         gallery: [
             "/projects/santiago-skymont/gallery_1.png",
             "/projects/santiago-skymont/gallery_2.png",
             "/projects/santiago-skymont/about_us.png"
         ],
         configurations: [
-            { type: "3 BHK", area: "1250 - 1450 Sq.Ft", price: "1.85 Cr*" },
-            { type: "4 BHK", area: "1850 - 2100 Sq.Ft", price: "3.20 Cr*" }
+            { type: "2 BHK", area: "702 Sq.Ft", price: "54.54 Lakh*" },
+            { type: "3 BHK", area: "950+ Sq.Ft", price: "75.00 Lakh*" }
         ],
         floorPlans: [
             { 
-                title: "3 BHK Grande", 
-                area: "1350 Sq.Ft", 
-                price: "2.10 Cr", 
-                image: "/projects/santiago-skymont/floor_plan_3bhk_new.jpg" 
+                title: "2 BHK Layout", 
+                area: "702 Sq.Ft", 
+                price: "54.54 Lacs", 
+                image: "/projects/santiago-skymont/floor_plan_2bhk_new.jpg" 
             },
             { 
-                title: "4 BHK Penthouse", 
-                area: "2050 Sq.Ft", 
-                price: "3.50 Cr", 
-                image: "/projects/santiago-skymont/floor_plan_2bhk_new.jpg" 
+                title: "3 BHK Layout", 
+                area: "950+ Sq.Ft", 
+                price: "75.00 Lacs", 
+                image: "/projects/santiago-skymont/floor_plan_3bhk_new.jpg" 
             }
         ],
         attractions: [
-            { name: "Balewadi High Street", distance: "1.5 km", category: "Dining" },
-            { name: "Jupiter Hospital", distance: "3.0 km", category: "Healthcare" },
-            { name: "Orchid School", distance: "2.0 km", category: "Education" },
-            { name: "Westend Mall", distance: "3.5 km", category: "Shopping" }
+            { name: "DY Patil University", distance: "3.5 km", category: "Education" },
+            { name: "Pune Airport", distance: "8.5 km", category: "Transport" },
+            { name: "Vishrantwadi", distance: "6.0 km", category: "Locality" },
+            { name: "Khadki Railway Station", distance: "11 km", category: "Transport" }
         ]
     },
     {
