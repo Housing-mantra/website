@@ -22,7 +22,7 @@ const OFFICIAL_DOMAINS: Record<string, string> = {
   "santiago-skymont": "https://santiagoskymontcharholi.com",
   "kamalraj-indradhanu-charholi": "https://kamalrajindradhanu.com",
   "sankalp-sierra-charholi": "https://sankalpsierra.com",
-  "topaz-towers-charholi": "https://topaztowerscharholi.com",
+  "topaz-towers-charholi": "https://topaztowers.com",
   "the-forestia-chikhli": "https://theforestiachikhli.com",
   "prism-city-blue": "https://prismcityblue.com"
 };
