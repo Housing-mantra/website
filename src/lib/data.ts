@@ -3593,7 +3593,7 @@ export const PROJECTS = [
         landArea: "29-Floor Landmark",
         units: "Premium Dighi-Alandi Road",
         towers: "29 Floors",
-        image: "/projects/sai-ananta-charholi/IMG-20260513-WA0002.jpg",
+        image: "/projects/sai-ananta-charholi/IMG-20260513-WA0004.jpg",
         description: "Discover Sai Ananta, a premium 29-floor residential landmark in Wadmukhwadi, Dighi-Alandi Road, Pune. Offering luxury 2 & 3 BHK homes with 30+ world-class amenities.",
         features: ["29 Floors Height", "30+ Modern Amenities", "Gymnasium", "Swimming Pool", "Clubhouse", "Kids Play Area"],
         gallery: [
