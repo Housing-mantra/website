@@ -377,7 +377,7 @@ export default async function ProjectDetails({
                                     rel="noopener noreferrer"
                                     className="flex items-center justify-center gap-2.5 w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white py-4 rounded-[5px] font-extrabold text-[11px] uppercase tracking-wider transition-all shadow-md group"
                                 >
-                                    <span>Visit Official Website</span>
+                                    <span>Visit {project.title} Website</span>
                                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                                 </a>
                             )}
