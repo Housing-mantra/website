@@ -4,7 +4,7 @@ import { getProjectBySlug, getDeveloperBySlug } from "@/lib/db-helpers";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { 
-    MapPin, CheckCircle, ArrowLeft, Building2, Phone, Mail, 
+    MapPin, CheckCircle, ArrowLeft, ArrowRight, Building2, Phone, Mail, 
     Calendar, Maximize, Layout, Layers, Compass, 
     ShieldCheck, GraduationCap, 
     HeartPulse, Utensils, Store, Smartphone
@@ -13,6 +13,19 @@ import Link from "next/link";
 import { ProjectActions } from "@/components/ProjectActions";
 
 import { Metadata } from "next";
+
+const OFFICIAL_DOMAINS: Record<string, string> = {
+  "sai-ananta-charholi": "https://saianantacharholi.com",
+  "shakuntal-alentia-charholi": "https://shakuntalalentiaofficial.com",
+  "sankalp-torezza-ravet": "https://sankalptorezza.com",
+  "shaligram-greenstone-charholi": "https://shaligramgroupcharholi.com",
+  "santiago-skymont": "https://santiagoskymontcharholi.com",
+  "kamalraj-indradhanu-charholi": "https://kamalrajindradhanu.com",
+  "sankalp-sierra-charholi": "https://sankalpsierracharholi.com",
+  "topaz-towers-charholi": "https://topaztowerscharholi.com",
+  "the-forestia-chikhli": "https://theforestiachikhli.com",
+  "prism-city-blue": "https://prismcityblue.com"
+};
 
 // ISR: Cache page for 5 minutes, regenerate in background on demand
 export const revalidate = 300;
@@ -98,6 +111,7 @@ export default async function ProjectDetails({
         notFound();
     }
 
+    const officialUrl = OFFICIAL_DOMAINS[project.id] || OFFICIAL_DOMAINS[project.slug];
     const developer = project.developerId ? await getDeveloperBySlug(project.developerId) : null;
 
     // Safe fallbacks for lists
@@ -356,6 +370,17 @@ export default async function ProjectDetails({
 
                     <div className="lg:col-span-1">
                         <div className="sticky top-40 space-y-6">
+                            {officialUrl && (
+                                <a 
+                                    href={officialUrl} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-center gap-2.5 w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white py-4 rounded-[5px] font-extrabold text-[11px] uppercase tracking-wider transition-all shadow-md group"
+                                >
+                                    <span>Visit Official Website</span>
+                                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                </a>
+                            )}
                             <div className="bg-white rounded-[5px] p-10 border border-gray-100 shadow-sm">
                                 <h3 className="text-3xl font-extrabold text-gray-900 mb-2">Enquire Now</h3>
                                 <p className="text-gray-500 font-medium mb-8">Get official brochure & pricing details.</p>
