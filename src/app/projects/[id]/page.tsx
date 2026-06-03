@@ -21,7 +21,7 @@ const OFFICIAL_DOMAINS: Record<string, string> = {
   "shaligram-greenstone-charholi": "https://shaligramgroupcharholi.com",
   "santiago-skymont": "https://santiagoskymontcharholi.com",
   "kamalraj-indradhanu-charholi": "https://kamalrajindradhanu.com",
-  "sankalp-sierra-charholi": "https://sankalpsierracharholi.com",
+  "sankalp-sierra-charholi": "https://sankalpsierra.com",
   "topaz-towers-charholi": "https://topaztowerscharholi.com",
   "the-forestia-chikhli": "https://theforestiachikhli.com",
   "prism-city-blue": "https://prismcityblue.com"
