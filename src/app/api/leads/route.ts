@@ -16,6 +16,7 @@ const CRM_KEYS: Record<string, string | undefined> = {
   "kamalraj": process.env.CRM_KEY_KAMALRAJ || "kamalraj_key_placeholder",
   "sankalp-torezza": process.env.CRM_KEY_SANKALP_TOREZZA || "0540ca58c605eec7eee431849fa754f04957f1088eeb2a2c7bd777b9525316f8",
   "sai-ananta": process.env.CRM_KEY_SAI_ANANTA || "9e41d8bd5cb690b08150bacc6b81512c5038d35ef104029cfe108c62871bd233",
+  "radhe-anantam": process.env.CRM_KEY_RADHE_ANANTAM || "6d16edecf1e39ea5eccb43b06dfb3a3e71e947ffc08d744529abff8c1066a51f",
 };
 
 export async function OPTIONS() {
