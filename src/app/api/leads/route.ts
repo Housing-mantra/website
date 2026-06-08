@@ -5,18 +5,20 @@ import path from 'path';
 // Mapping of project slugs to their Workveu CRM API Authorization keys.
 // These can be overridden in production using environment variables.
 const CRM_KEYS: Record<string, string | undefined> = {
-  "forestia": process.env.CRM_KEY_FORESTIA || "548c4f045096008792fd71d04692dba2f75809ad92e61b922b24e8bd3e8003bc",
-  "prismcity": process.env.CRM_KEY_PRISMCITY || "c31a6b7a8c52c063967be86f4c496a5173b1ec572cd91ab0f56657b56889eb0d",
-  "topaz": process.env.CRM_KEY_TOPAZ || "05b46a0a41e56b1605b51b08d9c161117ead7a420200205d25e3347eb52cd81c",
-  "shakuntal": process.env.CRM_KEY_SHAKUNTAL || "6d16edecf1e39ea5eccb43b06dfb3a3e71e947ffc08d744529abff8c1066a51f",
-  // Simulated or empty projects: Add placeholders so they don't break
-  "sankalp": process.env.CRM_KEY_SANKALP || "7643721beff2cd75ef715f0046d9d6861339e39a811ab2018f9f9539119ac528",
-  "santiago": process.env.CRM_KEY_SANTIAGO || "7624511b133483a84d4e75797f1f2707fdc73503cd4d99b1aaf44f0661a88832",
-  "shaligram": process.env.CRM_KEY_SHALIGRAM || "fb5a2e55c77cb880c6bbd76a0891e3162781bb3b86c3d6a0324e0923b6438abf",
-  "kamalraj": process.env.CRM_KEY_KAMALRAJ || "kamalraj_key_placeholder",
-  "sankalp-torezza": process.env.CRM_KEY_SANKALP_TOREZZA || "0540ca58c605eec7eee431849fa754f04957f1088eeb2a2c7bd777b9525316f8",
-  "sai-ananta": process.env.CRM_KEY_SAI_ANANTA || "9e41d8bd5cb690b08150bacc6b81512c5038d35ef104029cfe108c62871bd233",
-  "radhe-anantam": process.env.CRM_KEY_RADHE_ANANTAM || "6d16edecf1e39ea5eccb43b06dfb3a3e71e947ffc08d744529abff8c1066a51f",
+  "forestia":          process.env.CRM_KEY_FORESTIA          || "548c4f045096008792fd71d04692dba2f75809ad92e61b922b24e8bd3e8003bc",
+  "prismcity":         process.env.CRM_KEY_PRISMCITY         || "c31a6b7a8c52c063967be86f4c496a5173b1ec572cd91ab0f56657b56889eb0d",
+  "topaz":             process.env.CRM_KEY_TOPAZ             || "05b46a0a41e56b1605b51b08d9c161117ead7a420200205d25e3347eb52cd81c",
+  "shakuntal":         process.env.CRM_KEY_SHAKUNTAL         || "6d16edecf1e39ea5eccb43b06dfb3a3e71e947ffc08d744529abff8c1066a51f",
+  "sankalp":           process.env.CRM_KEY_SANKALP           || "7643721beff2cd75ef715f0046d9d6861339e39a811ab2018f9f9539119ac528",
+  "santiago":          process.env.CRM_KEY_SANTIAGO          || "7624511b133483a84d4e75797f1f2707fdc73503cd4d99b1aaf44f0661a88832",
+  "shaligram":         process.env.CRM_KEY_SHALIGRAM         || "fb5a2e55c77cb880c6bbd76a0891e3162781bb3b86c3d6a0324e0923b6438abf",
+  "sankalp-torezza":   process.env.CRM_KEY_SANKALP_TOREZZA   || "c5b66b48e07f3e407ac46c99b0fbf8b9d85ec6c08518b1e556f2892241a53c52",
+  "sai-ananta":        process.env.CRM_KEY_SAI_ANANTA        || "bc179e69761ced0651cb08db0b4c60d899e774d9c97f373d66478b4798e79aa0",
+  "landmark-rivera":   process.env.CRM_KEY_LANDMARK_RIVERA   || "c1d2423a972fd0708bd887fbe6e08119d14e0e681586a32e4644b3fa1744f373",
+  "landmark-riveeraa": process.env.CRM_KEY_LANDMARK_RIVERA   || "c1d2423a972fd0708bd887fbe6e08119d14e0e681586a32e4644b3fa1744f373",
+  "mangalam-mithila":  process.env.CRM_KEY_MANGALAM_MITHILA  || "82547e56848aeb417a1819df32eb06997f23c6be3531ac50dbae9561ea2f55da",
+  "mangalam-starview": process.env.CRM_KEY_MANGALAM_STARVIEW || "1f400100ed2aa22639cbf415e3d746268296727e4c2fb4aa1a20f4a31e271d2e",
+  "radhe-anantam":     process.env.CRM_KEY_RADHE_ANANTAM     || "a36d6782996de15fa44dbf63da076394cca03511d992a83f515ee691dfd5abae",
 };
 
 export async function OPTIONS() {
@@ -74,12 +76,14 @@ export async function POST(req: Request) {
       console.error('[Lead Backup] Failed to write local backup:', backupError);
     }
 
-    // If key is missing or is a placeholder, log it and return success (fail-safe for UI)
+    // If key is missing or is a placeholder, return 200 immediately (lead is safely backed up locally)
     if (!crmKey || crmKey.includes('placeholder')) {
-      console.warn(`[CRM Gateway] No active key configured for project slug: ${slugClean}. Saved locally.`);
+      console.warn(`[CRM Gateway] No active CRM key for slug: ${slugClean}. Lead backed up locally. Set env var to enable CRM sync.`);
+      return NextResponse.json(
+        { success: true, message: 'Lead received and backed up locally. CRM sync pending key configuration.' },
+        { status: 200, headers: { 'Access-Control-Allow-Origin': '*' } }
+      );
     }
-
-
 
     // Forward to Workveu CRM
     const payload = {
