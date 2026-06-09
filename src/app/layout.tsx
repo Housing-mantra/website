@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Rubik, Oswald } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { MantraAiAgent } from "@/components/MantraAiAgent";
 
@@ -16,11 +17,14 @@ const oswald = Oswald({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.housingmantra.in'),
+  alternates: {
+    canonical: '/',
+  },
   title: {
     default: "Find Your Perfect Home in Pune | Housing Mantra",
     template: "%s | Housing Mantra"
   },
-  description: "Find your dream home with Housing Mantra. Explore verified residential and commercial properties in Pune, PCMC, Moshi, Charholi, and more. Direct from owners, 100% transparent and reliable real estate services.",
+  description: "Find your dream home with Housing Mantra. Explore verified residential & commercial properties in Pune and PCMC. 100% transparent and reliable real estate.",
   keywords: [
     "Real Estate Pune", 
     "Flats in PCMC", 
@@ -72,6 +76,12 @@ export const metadata: Metadata = {
   },
   verification: {
     google: "GkMTJb_H-KisnK4eOR1yKDoQN-c3H43u9Ua5Qvxc1Xg",
+  },
+  other: {
+    "geo.region": "IN-MH",
+    "geo.placename": "Pune, Maharashtra",
+    "geo.position": "18.5992;73.7634",
+    "ICBM": "18.5992, 73.7634",
   }
 };
 
@@ -82,15 +92,40 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Google Tag Manager */}
+        <Script
+          id="gtm-script"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtag/js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TWMGNJQN');`,
+          }}
+        />
+        {/* End Google Tag Manager */}
+      </head>
       <body
         className={`${rubik.variable} ${oswald.variable} antialiased font-sans`}
       >
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-TWMGNJQN"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "RealEstateAgent",
+              "@type": "LocalBusiness",
               "name": "Housing Mantra",
               "image": "https://www.housingmantra.in/logo.png",
               "@id": "https://www.housingmantra.in",
