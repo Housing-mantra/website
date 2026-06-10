@@ -1,9 +1,39 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { google } from 'googleapis';
 
-// Mapping of project slugs to their Workveu CRM API Authorization keys.
-// These can be overridden in production using environment variables.
+// ─── Google Sheets Config ──────────────────────────────────────────────────
+const SPREADSHEET_ID = process.env.GOOGLE_SHEET_ID || '1ADKsh46WjGdpxn6M3MbNp1khIoONakBhRY9yBYnyfPA';
+const SHEET_NAME     = 'Leads'; // 3rd sheet — must be named "Leads" in the spreadsheet
+
+async function appendLeadToSheet(rowData: string[]) {
+  try {
+    const privateKey = (process.env.GOOGLE_SERVICE_PRIVATE_KEY || '').replace(/\\n/g, '\n');
+    const clientEmail = process.env.GOOGLE_SERVICE_CLIENT_EMAIL || 'sc-indexer@housing-mantra-9d7e8.iam.gserviceaccount.com';
+
+    const auth = new google.auth.JWT({
+      email: clientEmail,
+      key: privateKey,
+      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    });
+
+    const sheets = google.sheets({ version: 'v4', auth });
+    await sheets.spreadsheets.values.append({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${SHEET_NAME}!A:G`,
+      valueInputOption: 'USER_ENTERED',
+      insertDataOption: 'INSERT_ROWS',
+      requestBody: { values: [rowData] },
+    });
+    console.log('[Google Sheets] Lead appended successfully.');
+  } catch (err: any) {
+    // Non-fatal — CRM + local backup still proceed
+    console.error('[Google Sheets] Failed to append lead:', err?.message || err);
+  }
+}
+
+// ─── CRM Keys ─────────────────────────────────────────────────────────────
 const CRM_KEYS: Record<string, string | undefined> = {
   "forestia":          process.env.CRM_KEY_FORESTIA          || "548c4f045096008792fd71d04692dba2f75809ad92e61b922b24e8bd3e8003bc",
   "prismcity":         process.env.CRM_KEY_PRISMCITY         || "c31a6b7a8c52c063967be86f4c496a5173b1ec572cd91ab0f56657b56889eb0d",
@@ -19,7 +49,7 @@ const CRM_KEYS: Record<string, string | undefined> = {
   "mangalam-mithila":  process.env.CRM_KEY_MANGALAM_MITHILA  || "82547e56848aeb417a1819df32eb06997f23c6be3531ac50dbae9561ea2f55da",
   "mangalam-starview": process.env.CRM_KEY_MANGALAM_STARVIEW || "1f400100ed2aa22639cbf415e3d746268296727e4c2fb4aa1a20f4a31e271d2e",
   "radhe-anantam":     process.env.CRM_KEY_RADHE_ANANTAM     || "a36d6782996de15fa44dbf63da076394cca03511d992a83f515ee691dfd5abae",
-  "tanish-meridian":  process.env.CRM_KEY_TANISH_MERIDIAN   || "placeholder",
+  "tanish-meridian":   process.env.CRM_KEY_TANISH_MERIDIAN   || "placeholder",
 };
 
 export async function OPTIONS() {
@@ -76,6 +106,19 @@ export async function POST(req: Request) {
     } catch (backupError) {
       console.error('[Lead Backup] Failed to write local backup:', backupError);
     }
+
+    // ── Append to Google Sheets (Sheet 3: "Leads") — non-blocking ────────
+    const now = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    const sheetRow = [
+      now,
+      slugClean,
+      name,
+      mobile,
+      email || '',
+      message || 'Website Enquiry',
+      query_form || 'Website Enquiry',
+    ];
+    appendLeadToSheet(sheetRow); // fire-and-forget, non-blocking
 
     // If key is missing or is a placeholder, return 200 immediately (lead is safely backed up locally)
     if (!crmKey || crmKey.includes('placeholder')) {
