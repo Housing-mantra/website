@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   title: {
-    default: "Find Your Perfect Home in Pune | Housing Mantra",
+    default: "Find Your Perfect Home in Pune & PCMC | Housing Mantra",
     template: "%s | Housing Mantra"
   },
   description: "Find your dream home with Housing Mantra. Explore verified residential & commercial properties in Pune and PCMC. 100% transparent and reliable real estate.",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: "https://www.housingmantra.in",
-    title: "Find Your Perfect Home in Pune | Housing Mantra",
+    title: "Find Your Perfect Home in Pune & PCMC | Housing Mantra",
     description: "Discover verified residential and commercial properties in Pune and PCMC. Luxury apartments, affordable homes, and premium commercial spaces.",
     siteName: "Housing Mantra",
     images: [
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Find Your Perfect Home in Pune | Housing Mantra",
+    title: "Find Your Perfect Home in Pune & PCMC | Housing Mantra",
     description: "Your trusted partner for buying and selling property in Pune and PCMC.",
     images: ["/og-image.jpg"],
   },
