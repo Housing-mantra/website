@@ -50,6 +50,7 @@ const CRM_KEYS: Record<string, string | undefined> = {
   "mangalam-starview": process.env.CRM_KEY_MANGALAM_STARVIEW || "1f400100ed2aa22639cbf415e3d746268296727e4c2fb4aa1a20f4a31e271d2e",
   "radhe-anantam":     process.env.CRM_KEY_RADHE_ANANTAM     || "a36d6782996de15fa44dbf63da076394cca03511d992a83f515ee691dfd5abae",
   "tanish-meridian":   process.env.CRM_KEY_TANISH_MERIDIAN   || "placeholder",
+  "ethics-orova":      process.env.CRM_KEY_ETHICS_OROVIA     || "placeholder",
 };
 
 export async function OPTIONS() {
